@@ -1,0 +1,181 @@
+{% doc %}
+  @prompt
+    Create a replacement Wolvestry header block with an editable logo image upload control, desktop and mobile logo width controls that preserve the image aspect ratio, and logo alt text. Use the uploaded Wolvestry logo at https://cdn.shopify.com/s/files/1/1023/4901/3270/files/Logo.png?v=1795264170 as the initial logo if possible. Match the existing Wolvestry header and minimalist premium dark brand style: matte black #0E0E0E and off-white #EDE8DF. Keep navigation and shopping controls editable. This is intended to replace the existing Wolvestry header, not display alongside it.
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-wolvestry-header-{{ ai_gen_id }} {
+    display: block;
+    width: 100%;
+    background: #0E0E0E;
+    color: #EDE8DF;
+    font-family: inherit;
+  }
+
+  .ai-wolvestry-header-{{ ai_gen_id }}__inner {
+    width: 100%;
+    max-width: 1600px;
+    min-height: 72px;
+    margin: 0 auto;
+    padding: 14px 4%;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 24px;
+    box-sizing: border-box;
+  }
+
+  .ai-wolvestry-header-{{ ai_gen_id }}__nav,
+  .ai-wolvestry-header-{{ ai_gen_id }}__actions {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+  }
+
+  .ai-wolvestry-header-{{ ai_gen_id }}__nav a,
+  .ai-wolvestry-header-{{ ai_gen_id }}__actions a {
+    color: #EDE8DF;
+    font-size: 12px;
+    line-height: 1.4;
+    letter-spacing: 0.12em;
+    text-decoration: none;
+    text-transform: uppercase;
+  }
+
+  .ai-wolvestry-header-{{ ai_gen_id }}__nav a:hover,
+  .ai-wolvestry-header-{{ ai_gen_id }}__actions a:hover {
+    opacity: 0.72;
+  }
+
+  .ai-wolvestry-header-{{ ai_gen_id }}__logo {
+    display: block;
+    width: {{ block.settings.desktop_logo_width }}px;
+    max-width: 100%;
+    line-height: 0;
+  }
+
+  .ai-wolvestry-header-{{ ai_gen_id }}__logo img {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-height: 72px;
+    object-fit: contain;
+  }
+
+  .ai-wolvestry-header-{{ ai_gen_id }}__logo-text {
+    display: block;
+    color: #EDE8DF;
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  .ai-wolvestry-header-{{ ai_gen_id }}__actions {
+    justify-content: flex-end;
+  }
+
+  .ai-wolvestry-header-{{ ai_gen_id }}__cart-count {
+    display: inline-flex;
+    min-width: 18px;
+    height: 18px;
+    margin-left: 5px;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #EDE8DF;
+    border-radius: 50%;
+    font-size: 10px;
+    letter-spacing: 0;
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-wolvestry-header-{{ ai_gen_id }}__inner {
+      min-height: 60px;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 8px;
+      padding: 12px 16px;
+    }
+
+    .ai-wolvestry-header-{{ ai_gen_id }}__logo {
+      width: {{ block.settings.mobile_logo_width }}px;
+    }
+
+    .ai-wolvestry-header-{{ ai_gen_id }}__logo img {
+      max-height: 48px;
+    }
+
+    .ai-wolvestry-header-{{ ai_gen_id }}__nav {
+      gap: 12px;
+    }
+
+    .ai-wolvestry-header-{{ ai_gen_id }}__nav a,
+    .ai-wolvestry-header-{{ ai_gen_id }}__actions a {
+      font-size: 10px;
+      letter-spacing: 0.08em;
+    }
+
+    .ai-wolvestry-header-{{ ai_gen_id }}__nav a:nth-child(n+2) {
+      display: none;
+    }
+
+    .ai-wolvestry-header-{{ ai_gen_id }}__actions {
+      gap: 10px;
+    }
+  }
+{% endstyle %}
+
+<header class="ai-wolvestry-header-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-wolvestry-header-{{ ai_gen_id }}__inner">
+    <nav class="ai-wolvestry-header-{{ ai_gen_id }}__nav" aria-label="Primary navigation">
+      {% if block.settings.menu != blank %}
+        {% for link in block.settings.menu.links %}
+          <a href="{{ link.url }}">{{ link.title | escape }}</a>
+        {% endfor %}
+      {% else %}
+        {% if block.settings.nav_label != blank and block.settings.nav_link != blank %}
+          <a href="{{ block.settings.nav_link }}">{{ block.settings.nav_label | escape }}</a>
+        {% endif %}
+      {% endif %}
+    </nav>
+
+    <a class="ai-wolvestry-header-{{ ai_gen_id }}__logo" href="{{ routes.root_url }}" aria-label="{{ block.settings.logo_alt | escape }}">
+      {% if block.settings.logo_image != blank %}
+        <img src="{{ block.settings.logo_image | image_url: width: 800 }}" alt="{{ block.settings.logo_alt | escape }}" loading="eager" width="{{ block.settings.logo_image.width }}" height="{{ block.settings.logo_image.height }}">
+      {% else %}
+        <span class="ai-wolvestry-header-{{ ai_gen_id }}__logo-text">WOLVESTRY</span>
+      {% endif %}
+    </a>
+
+    <div class="ai-wolvestry-header-{{ ai_gen_id }}__actions">
+      {% if block.settings.show_search %}<a href="{{ routes.search_url }}" aria-label="Search">Search</a>{% endif %}
+      {% if block.settings.show_account and shop.customer_accounts_enabled %}<a href="{{ routes.account_url }}" aria-label="Account">Account</a>{% endif %}
+      {% if block.settings.show_cart %}<a href="{{ routes.cart_url }}" aria-label="Cart, {{ cart.item_count }} items">Bag<span class="ai-wolvestry-header-{{ ai_gen_id }}__cart-count">{{ cart.item_count }}</span></a>{% endif %}
+    </div>
+  </div>
+</header>
+
+{% schema %}
+{
+  "name": "Wolvestry header",
+  "settings": [
+    { "type": "image_picker", "id": "logo_image", "label": "Logo image" },
+    { "type": "text", "id": "logo_alt", "label": "Logo alt text", "default": "Wolvestry" },
+    { "type": "range", "id": "desktop_logo_width", "label": "Desktop logo width", "min": 60, "max": 320, "step": 10, "unit": "px", "default": 180 },
+    { "type": "range", "id": "mobile_logo_width", "label": "Mobile logo width", "min": 50, "max": 220, "step": 10, "unit": "px", "default": 130 },
+    { "type": "header", "content": "Navigation" },
+    { "type": "link_list", "id": "menu", "label": "Menu" },
+    { "type": "text", "id": "nav_label", "label": "Fallback link label", "default": "Shop" },
+    { "type": "url", "id": "nav_link", "label": "Fallback link" },
+    { "type": "header", "content": "Shopping controls" },
+    { "type": "checkbox", "id": "show_search", "label": "Show search", "default": true },
+    { "type": "checkbox", "id": "show_account", "label": "Show account", "default": true },
+    { "type": "checkbox", "id": "show_cart", "label": "Show bag", "default": true },
+    { "type": "range", "id": "desktop_width_percent", "label": "Desktop width", "min": 50, "max": 100, "step": 5, "unit": "%", "default": 100 }
+  ],
+  "presets": [{ "name": "Wolvestry header" }],
+  "tag": null,
+  "class": "wolvestry-header-block"
+}
+{% endschema %}

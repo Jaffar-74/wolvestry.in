@@ -9,6 +9,32 @@
  */
 {
   "sections": {
+    "1795264365e9c69850": {
+      "type": "_blocks",
+      "blocks": {
+        "ai_gen_block_e68d685_Tgnm6D": {
+          "type": "ai_gen_block_e68d685",
+          "settings": {
+            "logo_image": "shopify://shop_images/Logo.png",
+            "logo_alt": "Wolvestry",
+            "desktop_logo_width": 180,
+            "mobile_logo_width": 130,
+            "menu": "",
+            "nav_label": "Shop",
+            "nav_link": "",
+            "show_search": true,
+            "show_account": true,
+            "show_cart": true,
+            "desktop_width_percent": 100
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_e68d685_Tgnm6D"
+      ],
+      "settings": {}
+    },
     "wolvestry_hero_BPq4Pm": {
       "type": "wolvestry-hero",
       "name": "Wolvestry Hero",
@@ -23,9 +49,56 @@
         "content_position": "center-middle",
         "color_scheme": "scheme-1"
       }
+    },
+    "wolvestry_featured_Ca7Hqr": {
+      "type": "wolvestry-featured",
+      "blocks": {
+        "tile_ytB3r9": {
+          "type": "tile",
+          "settings": {
+            "product": "",
+            "collection": "",
+            "category_label": "OUTERWEAR",
+            "custom_title": "WOLF SERIES JACKET",
+            "image": "shopify://shop_images/dark-moody-studio-portrait.png"
+          }
+        },
+        "tile_8ieJmy": {
+          "type": "tile",
+          "settings": {
+            "product": "",
+            "collection": "",
+            "category_label": "HOODIES",
+            "custom_title": "PACK HOODIE"
+          }
+        },
+        "tile_TK8wNH": {
+          "type": "tile",
+          "settings": {
+            "product": "",
+            "collection": "",
+            "category_label": "T-SHIRTS",
+            "custom_title": "SHADOW TEE"
+          }
+        }
+      },
+      "block_order": [
+        "tile_ytB3r9",
+        "tile_8ieJmy",
+        "tile_TK8wNH"
+      ],
+      "name": "Wolvestry Featured",
+      "settings": {
+        "heading": "THE COLLECTION",
+        "view_all_label": "VIEW ALL",
+        "view_all_link": "",
+        "color_scheme": "scheme-1"
+      }
     }
   },
   "order": [
-    "wolvestry_hero_BPq4Pm"
+    "1795264365e9c69850",
+    "wolvestry_hero_BPq4Pm",
+    "wolvestry_featured_Ca7Hqr"
   ]
 }
