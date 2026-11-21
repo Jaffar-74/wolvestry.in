@@ -1,0 +1,234 @@
+<style>
+  .wolvestry-story {
+    padding: var(--section-spacing) 0;
+  }
+
+  .wolvestry-story__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .wolvestry-story__grid--image-right .wolvestry-story__image-col {
+    order: 2;
+  }
+
+  .wolvestry-story__grid--image-right .wolvestry-story__text-col {
+    order: 1;
+  }
+
+  .wolvestry-story__image {
+    aspect-ratio: 3 / 4;
+    object-fit: cover;
+    width: 100%;
+    display: block;
+  }
+
+  .wolvestry-story__text-col {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 6rem;
+  }
+
+  .wolvestry-story__eyebrow {
+    text-transform: uppercase;
+    letter-spacing: 0.3em;
+    font-size: 0.7rem;
+    color: var(--wv-muted);
+    margin-bottom: 1.5rem;
+  }
+
+  .wolvestry-story__heading {
+    font-family: var(--font-heading);
+    font-size: clamp(2.4rem, 5vw, 4.8rem);
+    line-height: 0.9;
+    margin: 0 0 2rem;
+  }
+
+  .wolvestry-story__body {
+    font-size: 1rem;
+    line-height: 1.8;
+    color: var(--wv-muted);
+    max-width: 480px;
+    margin: 0 0 3rem;
+  }
+
+  .wolvestry-story__button {
+    display: inline-flex;
+    align-items: center;
+    gap: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    font-size: 0.75rem;
+    padding: 0;
+    border: none;
+    background: none;
+    text-decoration: none;
+    color: inherit;
+    transition: opacity 0.3s ease;
+  }
+
+  .wolvestry-story__button::after {
+    content: '';
+    display: inline-block;
+    width: 60px;
+    height: 1px;
+    background: currentColor;
+    transition: width 0.3s ease;
+  }
+
+  .wolvestry-story__button:hover {
+    opacity: 0.7;
+  }
+
+  .wolvestry-story__button:hover::after {
+    width: 90px;
+  }
+
+  @media screen and (max-width: 749px) {
+    .wolvestry-story__grid {
+      grid-template-columns: 1fr;
+    }
+
+    .wolvestry-story__grid--image-right .wolvestry-story__image-col {
+      order: unset;
+    }
+
+    .wolvestry-story__grid--image-right .wolvestry-story__text-col {
+      order: unset;
+    }
+
+    .wolvestry-story__text-col {
+      padding: 3rem 2rem;
+    }
+  }
+</style>
+
+<div class="wolvestry-story color-{{ section.settings.color_scheme }}">
+  <div class="wolvestry-story__grid{% if section.settings.image_position == 'right' %} wolvestry-story__grid--image-right{% endif %}">
+    <div class="wolvestry-story__image-col">
+      {%- if section.settings.image != blank -%}
+        <img
+          src="{{ section.settings.image | image_url: width: 1200 }}"
+          alt="{{ section.settings.image.alt | escape }}"
+          loading="lazy"
+          width="{{ section.settings.image.width }}"
+          height="{{ section.settings.image.height }}"
+          class="wolvestry-story__image"
+        >
+      {%- else -%}
+        {{ 'lifestyle-1' | placeholder_svg_tag: 'wolvestry-story__image placeholder-svg' }}
+      {%- endif -%}
+    </div>
+
+    <div class="wolvestry-story__text-col">
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="wolvestry-story__eyebrow">{{ section.settings.eyebrow }}</p>
+      {%- endif -%}
+
+      {%- if section.settings.heading != blank -%}
+        <h2 class="wolvestry-story__heading">{{ section.settings.heading }}</h2>
+      {%- endif -%}
+
+      {%- if section.settings.text != blank -%}
+        <p class="wolvestry-story__body">{{ section.settings.text }}</p>
+      {%- endif -%}
+
+      {%- if section.settings.button_label != blank -%}
+        <div>
+          <a
+            href="{{ section.settings.button_link }}"
+            class="wolvestry-story__button"
+          >
+            {{ section.settings.button_label }}
+          </a>
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Wolvestry Story",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "THE PACK"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "BUILT FOR THE BOLD."
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Body text",
+      "default": "Built for those who move with purpose. Wolvestry is more than clothing — it's a code. Wear it like you mean it."
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "OUR STORY"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "select",
+      "id": "image_position",
+      "label": "Image position",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "select",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "options": [
+        {
+          "value": "scheme-1",
+          "label": "Scheme 1"
+        },
+        {
+          "value": "scheme-2",
+          "label": "Scheme 2"
+        },
+        {
+          "value": "scheme-3",
+          "label": "Scheme 3"
+        }
+      ],
+      "default": "scheme-1"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Wolvestry Story"
+    }
+  ]
+}
+{% endschema %}

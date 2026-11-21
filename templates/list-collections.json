@@ -1,0 +1,11 @@
+{
+  "sections": {
+    "main": {
+      "type": "wolvestry-collection-grid",
+      "settings": {
+        "heading": "ALL COLLECTIONS"
+      }
+    }
+  },
+  "order": ["main"]
+}

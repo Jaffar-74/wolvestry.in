@@ -1,0 +1,405 @@
+/* ============================================
+   WOLVESTRY THEME STYLES
+   ============================================ */
+
+/* Utility Classes */
+.wv-eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.3em;
+  font-size: 0.7rem;
+  color: var(--wv-muted);
+  font-family: var(--font-body);
+  font-weight: 500;
+}
+
+.wv-section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 4rem;
+}
+
+.wv-section-header h2 {
+  font-family: var(--font-heading);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.wv-section-header a {
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-size: 0.75rem;
+  color: var(--wv-muted);
+  transition: color 0.3s ease;
+}
+
+.wv-section-header a:hover {
+  color: var(--wv-bone);
+}
+
+/* Section spacing */
+.wv-section {
+  padding: var(--section-spacing) 0;
+}
+
+/* Product Grid */
+.wv-product-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem;
+}
+
+@media (max-width: 768px) {
+  .wv-product-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+}
+
+/* Badge Styles */
+.wv-badge {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  background: var(--wv-bone);
+  color: var(--wv-black);
+  font-size: 0.6rem;
+  font-family: var(--font-body);
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 0.4em 0.8em;
+  z-index: 2;
+  border-radius: var(--corner-radius);
+}
+
+.wv-badge--sale {
+  background: var(--wv-oxblood);
+  color: var(--wv-bone);
+}
+
+/* Price styles */
+.wv-price {
+  color: var(--wv-muted);
+  font-size: 0.85rem;
+  font-family: var(--font-body);
+}
+
+.wv-price--compare {
+  text-decoration: line-through;
+  margin-right: 0.5rem;
+  opacity: 0.6;
+}
+
+.wv-price--sale {
+  color: var(--wv-oxblood);
+}
+
+/* Form Elements */
+.wv-input {
+  background: transparent;
+  border: 1px solid var(--wv-gunmetal);
+  color: var(--wv-bone);
+  padding: 1em 1.5em;
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  width: 100%;
+  border-radius: var(--corner-radius);
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+.wv-input:focus {
+  border-color: var(--wv-bone);
+}
+
+.wv-input::placeholder {
+  color: var(--wv-gunmetal);
+}
+
+/* Quantity Selector */
+.wv-quantity {
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--wv-gunmetal);
+  border-radius: var(--corner-radius);
+}
+
+.wv-quantity button {
+  background: transparent;
+  border: none;
+  color: var(--wv-bone);
+  padding: 0.8em 1.2em;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: opacity 0.3s ease;
+}
+
+.wv-quantity button:hover {
+  opacity: 0.6;
+}
+
+.wv-quantity input {
+  background: transparent;
+  border: none;
+  border-left: 1px solid var(--wv-gunmetal);
+  border-right: 1px solid var(--wv-gunmetal);
+  color: var(--wv-bone);
+  text-align: center;
+  width: 3rem;
+  padding: 0.8em 0;
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  -moz-appearance: textfield;
+}
+
+.wv-quantity input::-webkit-outer-spin-button,
+.wv-quantity input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Variant Pills */
+.wv-variant-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.wv-variant-pill {
+  background: transparent;
+  border: 1px solid var(--wv-gunmetal);
+  color: var(--wv-bone);
+  padding: 0.6em 1.2em;
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  border-radius: var(--corner-radius);
+  transition: all 0.3s ease;
+}
+
+.wv-variant-pill:hover,
+.wv-variant-pill.active {
+  background: var(--wv-bone);
+  color: var(--wv-black);
+  border-color: var(--wv-bone);
+}
+
+.wv-variant-pill.sold-out {
+  opacity: 0.3;
+  cursor: not-allowed;
+  text-decoration: line-through;
+}
+
+/* Collapsible / Accordion */
+.wv-collapsible {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.wv-collapsible:last-child {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.wv-collapsible__trigger {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 1.5rem 0;
+  background: transparent;
+  border: none;
+  color: var(--wv-bone);
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  cursor: pointer;
+}
+
+.wv-collapsible__content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease;
+}
+
+.wv-collapsible__content.open {
+  max-height: 500px;
+}
+
+.wv-collapsible__inner {
+  padding: 0 0 1.5rem;
+  color: var(--wv-muted);
+  font-size: 0.85rem;
+  line-height: 1.8;
+}
+
+/* Color Swatches */
+.wv-swatch {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: border-color 0.3s ease;
+}
+
+.wv-swatch:hover,
+.wv-swatch.active {
+  border-color: var(--wv-bone);
+}
+
+/* Free Shipping Bar */
+.wv-shipping-bar {
+  background: var(--wv-panel);
+  border-radius: var(--corner-radius);
+  height: 4px;
+  overflow: hidden;
+  margin: 1rem 0;
+}
+
+.wv-shipping-bar__fill {
+  height: 100%;
+  background: var(--wv-bone);
+  transition: width 0.4s ease;
+}
+
+/* Table styles (size guide) */
+.wv-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+}
+
+.wv-table th {
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+  text-align: left;
+  color: var(--wv-bone);
+}
+
+.wv-table td {
+  padding: 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  color: var(--wv-muted);
+}
+
+/* Pagination */
+.wv-pagination {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 4rem;
+}
+
+.wv-pagination a,
+.wv-pagination span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--wv-gunmetal);
+  color: var(--wv-muted);
+  font-size: 0.85rem;
+  transition: all 0.3s ease;
+  border-radius: var(--corner-radius);
+}
+
+.wv-pagination a:hover,
+.wv-pagination .current {
+  background: var(--wv-bone);
+  color: var(--wv-black);
+  border-color: var(--wv-bone);
+}
+
+/* Cart Drawer */
+.wv-cart-drawer {
+  position: fixed;
+  top: 0;
+  right: -100%;
+  width: 420px;
+  max-width: 90vw;
+  height: 100vh;
+  background: var(--wv-black);
+  border-left: 1px solid rgba(255, 255, 255, 0.1);
+  z-index: 1000;
+  transition: right 0.4s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.wv-cart-drawer.open {
+  right: 0;
+}
+
+.wv-cart-drawer__overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 999;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+}
+
+.wv-cart-drawer__overlay.open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.wv-cart-drawer__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.wv-cart-drawer__items {
+  flex: 1;
+  overflow-y: auto;
+  padding: 2rem;
+}
+
+.wv-cart-drawer__footer {
+  padding: 2rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Scroll Reveal Animation */
+@media (prefers-reduced-motion: no-preference) {
+  .wv-reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  
+  .wv-reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Skip to content */
+.skip-to-content:focus {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 10000;
+  background: var(--wv-bone);
+  color: var(--wv-black);
+  padding: 1em 2em;
+  text-decoration: none;
+  font-family: var(--font-body);
+}

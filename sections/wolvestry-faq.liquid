@@ -1,0 +1,237 @@
+<style>
+  .wv-faq-{{ section.id }} {
+    padding: var(--section-spacing, 4rem) 0;
+  }
+
+  .wv-faq-{{ section.id }} .wv-faq__inner {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .wv-faq-{{ section.id }} .wv-faq__heading {
+    font-family: var(--font-heading, sans-serif);
+    font-size: clamp(2rem, 5vw, 3.6rem);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    text-align: center;
+    line-height: 1.1;
+    margin: 0 0 3rem;
+    color: var(--wv-bone, #F5F0EB);
+  }
+
+  .wv-faq-{{ section.id }} .wv-faq__item {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .wv-faq-{{ section.id }} .wv-faq__question {
+    width: 100%;
+    background: none;
+    border: none;
+    text-align: left;
+    padding: 1.25rem 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    color: var(--wv-bone, #F5F0EB);
+    font-family: var(--font-body, 'Inter', sans-serif);
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    transition: opacity 0.2s ease;
+  }
+
+  .wv-faq-{{ section.id }} .wv-faq__question:hover {
+    opacity: 0.7;
+  }
+
+  .wv-faq-{{ section.id }} .wv-faq__icon {
+    flex-shrink: 0;
+    width: 16px;
+    height: 16px;
+    position: relative;
+    transition: transform 0.3s ease;
+  }
+
+  .wv-faq-{{ section.id }} .wv-faq__icon::before,
+  .wv-faq-{{ section.id }} .wv-faq__icon::after {
+    content: '';
+    position: absolute;
+    background: var(--wv-muted, #999);
+    transition: transform 0.3s ease;
+  }
+
+  .wv-faq-{{ section.id }} .wv-faq__icon::before {
+    width: 100%;
+    height: 1px;
+    top: 50%;
+    left: 0;
+  }
+
+  .wv-faq-{{ section.id }} .wv-faq__icon::after {
+    width: 1px;
+    height: 100%;
+    left: 50%;
+    top: 0;
+  }
+
+  .wv-faq-{{ section.id }} .wv-faq__item.is-open .wv-faq__icon::after {
+    transform: rotate(90deg);
+    opacity: 0;
+  }
+
+  .wv-faq-{{ section.id }} .wv-faq__answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.35s ease, padding 0.35s ease;
+  }
+
+  .wv-faq-{{ section.id }} .wv-faq__item.is-open .wv-faq__answer {
+    max-height: 600px;
+    padding-bottom: 1.25rem;
+  }
+
+  .wv-faq-{{ section.id }} .wv-faq__answer-content {
+    color: var(--wv-muted, #999);
+    font-size: 0.85rem;
+    line-height: 1.7;
+    padding-right: 2rem;
+  }
+
+  .wv-faq-{{ section.id }} .wv-faq__answer-content p {
+    margin: 0 0 0.75rem;
+  }
+
+  .wv-faq-{{ section.id }} .wv-faq__answer-content p:last-child {
+    margin-bottom: 0;
+  }
+
+  @media screen and (max-width: 749px) {
+    .wv-faq-{{ section.id }} .wv-faq__inner {
+      padding: 0 1.25rem;
+    }
+  }
+</style>
+
+<div class="wv-faq-{{ section.id }}">
+  <div class="page-width">
+    <div class="wv-faq__inner">
+      {%- if section.settings.heading != blank -%}
+        <h2 class="wv-faq__heading">{{ section.settings.heading }}</h2>
+      {%- endif -%}
+
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'faq' -%}
+          <div class="wv-faq__item" {{ block.shopify_attributes }}>
+            <button
+              class="wv-faq__question"
+              type="button"
+              aria-expanded="false"
+              aria-controls="wv-faq-answer-{{ block.id }}"
+            >
+              <span>{{ block.settings.question }}</span>
+              <span class="wv-faq__icon" aria-hidden="true"></span>
+            </button>
+            <div class="wv-faq__answer" id="wv-faq-answer-{{ block.id }}" role="region">
+              <div class="wv-faq__answer-content rte">
+                {{ block.settings.answer }}
+              </div>
+            </div>
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+
+<script>
+  (function () {
+    var section = document.querySelector('.wv-faq-{{ section.id }}');
+    if (!section) return;
+
+    section.querySelectorAll('.wv-faq__question').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var item = btn.closest('.wv-faq__item');
+        var isOpen = item.classList.contains('is-open');
+
+        /* Close all others in this section */
+        section.querySelectorAll('.wv-faq__item.is-open').forEach(function (openItem) {
+          openItem.classList.remove('is-open');
+          openItem.querySelector('.wv-faq__question').setAttribute('aria-expanded', 'false');
+        });
+
+        /* Toggle the clicked item */
+        if (!isOpen) {
+          item.classList.add('is-open');
+          btn.setAttribute('aria-expanded', 'true');
+        }
+      });
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Wolvestry FAQ",
+  "tag": "section",
+  "class": "wv-faq-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "FREQUENTLY ASKED QUESTIONS"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "faq",
+      "name": "FAQ Item",
+      "settings": [
+        {
+          "type": "text",
+          "id": "question",
+          "label": "Question",
+          "default": "What is your return policy?"
+        },
+        {
+          "type": "richtext",
+          "id": "answer",
+          "label": "Answer",
+          "default": "<p>We accept returns within 7 days of delivery. Items must be unworn, unwashed, and in original packaging with all tags attached.</p>"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Wolvestry FAQ",
+      "blocks": [
+        {
+          "type": "faq",
+          "settings": {
+            "question": "What is your return policy?",
+            "answer": "<p>We accept returns within 7 days of delivery. Items must be unworn, unwashed, and in original packaging with all tags attached.</p>"
+          }
+        },
+        {
+          "type": "faq",
+          "settings": {
+            "question": "How long does shipping take?",
+            "answer": "<p>Orders are dispatched within 1-2 business days. Delivery takes 3-7 business days depending on your location within India.</p>"
+          }
+        },
+        {
+          "type": "faq",
+          "settings": {
+            "question": "Do you ship internationally?",
+            "answer": "<p>Currently we ship only within India. International shipping is coming soon. Sign up for our newsletter to be the first to know.</p>"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

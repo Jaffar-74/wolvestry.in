@@ -1,0 +1,173 @@
+{% if section.blocks.size > 0 %}
+<section
+  class="wolvestry-reviews"
+  style="
+    padding: var(--section-spacing) 0;
+    {% if section.settings.color_scheme == 'dark' %}
+      background: var(--wv-black); color: var(--wv-bone);
+    {% elsif section.settings.color_scheme == 'light' %}
+      background: var(--wv-bone); color: var(--wv-black);
+    {% endif %}
+  "
+>
+  <div class="page-width">
+    {% if section.settings.heading != blank %}
+      <h2 class="wolvestry-reviews__heading" style="
+        text-align: left;
+        font-family: var(--font-heading);
+        font-size: clamp(1.8rem, 4vw, 3.2rem);
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        margin-bottom: 4rem;
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+        white-space: nowrap;
+      ">
+        {{ section.settings.heading }}
+        <span style="flex:1; height:1px; background:rgba(255,255,255,0.15);"></span>
+      </h2>
+    {% endif %}
+
+    <div class="wolvestry-reviews__grid" style="
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 3rem;
+    ">
+      {% for block in section.blocks %}
+        {% if block.type == 'review' %}
+          <div class="wolvestry-reviews__card" {{ block.shopify_attributes }} style="
+            text-align: left;
+          ">
+            <div class="wolvestry-reviews__stars" style="
+              color: #C8A96E;
+              font-size: 1.2rem;
+              margin-bottom: 1.5rem;
+              letter-spacing: 0.15em;
+            ">
+              {% for i in (1..5) %}
+                {% if i <= block.settings.rating %}&#9733;{% else %}&#9734;{% endif %}
+              {% endfor %}
+            </div>
+
+            {% if block.settings.text != blank %}
+              <p class="wolvestry-reviews__text" style="
+                font-size: 1rem;
+                line-height: 1.8;
+                font-style: italic;
+                margin-bottom: 1.5rem;
+              ">
+                &ldquo;{{ block.settings.text }}&rdquo;
+              </p>
+            {% endif %}
+
+            {% if block.settings.reviewer_name != blank %}
+              <div style="width:40px; height:1px; background:rgba(255,255,255,0.15); margin: 1.5rem 0;"></div>
+              <p class="wolvestry-reviews__name" style="
+                text-transform: uppercase;
+                letter-spacing: 0.2em;
+                font-size: 0.75rem;
+                font-weight: 600;
+                margin: 0;
+              ">
+                {{ block.settings.reviewer_name }}
+              </p>
+            {% endif %}
+
+            {% if block.settings.reviewer_city != blank %}
+              <p class="wolvestry-reviews__city" style="
+                color: var(--wv-muted);
+                font-size: 0.7rem;
+                letter-spacing: 0.15em;
+                text-transform: uppercase;
+                margin-top: 0.25rem;
+              ">
+                {{ block.settings.reviewer_city }}
+              </p>
+            {% endif %}
+          </div>
+        {% elsif block.type == '@app' %}
+          <div {{ block.shopify_attributes }}>
+            {% render block %}
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+
+  <style>
+    @media screen and (max-width: 749px) {
+      .wolvestry-reviews__grid {
+        grid-template-columns: 1fr !important;
+        gap: 2.5rem !important;
+      }
+    }
+  </style>
+</section>
+{% endif %}
+
+{% schema %}
+{
+  "name": "Wolvestry Reviews",
+  "tag": "section",
+  "class": "section-wolvestry-reviews",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "WORN BY THE PACK"
+    },
+    {
+      "type": "select",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "options": [
+        { "value": "dark", "label": "Dark" },
+        { "value": "light", "label": "Light" }
+      ],
+      "default": "dark"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "review",
+      "name": "Review",
+      "settings": [
+        {
+          "type": "range",
+          "id": "rating",
+          "label": "Star rating",
+          "min": 1,
+          "max": 5,
+          "step": 1,
+          "default": 5
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Review text"
+        },
+        {
+          "type": "text",
+          "id": "reviewer_name",
+          "label": "Reviewer name"
+        },
+        {
+          "type": "text",
+          "id": "reviewer_city",
+          "label": "Reviewer city"
+        }
+      ]
+    },
+    {
+      "type": "@app"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Wolvestry Reviews"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,9 @@
+{
+  "sections": {
+    "main": {
+      "type": "wolvestry-size-guide",
+      "settings": {}
+    }
+  },
+  "order": ["main"]
+}

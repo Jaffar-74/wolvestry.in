@@ -1,0 +1,234 @@
+<style>
+  .wv-contact-{{ section.id }} {
+    padding: var(--section-spacing, 4rem) 0;
+  }
+
+  .wv-contact-{{ section.id }} .wv-contact__inner {
+    max-width: 640px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .wv-contact-{{ section.id }} .wv-contact__heading {
+    font-family: var(--font-heading, sans-serif);
+    font-size: clamp(2rem, 5vw, 3.6rem);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    line-height: 1.1;
+    margin: 0 0 1rem;
+    color: var(--wv-bone, #F5F0EB);
+  }
+
+  .wv-contact-{{ section.id }} .wv-contact__email {
+    display: inline-block;
+    color: var(--wv-muted, #999);
+    font-size: 0.85rem;
+    letter-spacing: 0.1em;
+    margin-bottom: 3rem;
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .wv-contact-{{ section.id }} .wv-contact__email:hover {
+    color: var(--wv-bone, #F5F0EB);
+  }
+
+  .wv-contact-{{ section.id }} .wv-contact__form {
+    text-align: left;
+  }
+
+  .wv-contact-{{ section.id }} .wv-contact__field {
+    margin-bottom: 1.5rem;
+  }
+
+  .wv-contact-{{ section.id }} .wv-contact__label {
+    display: block;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--wv-muted, #999);
+    font-family: var(--font-body, 'Inter', sans-serif);
+    margin-bottom: 0.5rem;
+  }
+
+  .wv-contact-{{ section.id }} .wv-contact__input,
+  .wv-contact-{{ section.id }} .wv-contact__textarea {
+    width: 100%;
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: var(--wv-bone, #F5F0EB);
+    font-family: var(--font-body, 'Inter', sans-serif);
+    font-size: 0.85rem;
+    padding: 0.9rem 1rem;
+    outline: none;
+    transition: border-color 0.2s ease;
+    box-sizing: border-box;
+  }
+
+  .wv-contact-{{ section.id }} .wv-contact__input:focus,
+  .wv-contact-{{ section.id }} .wv-contact__textarea:focus {
+    border-color: rgba(255, 255, 255, 0.35);
+  }
+
+  .wv-contact-{{ section.id }} .wv-contact__input::placeholder,
+  .wv-contact-{{ section.id }} .wv-contact__textarea::placeholder {
+    color: rgba(255, 255, 255, 0.2);
+  }
+
+  .wv-contact-{{ section.id }} .wv-contact__textarea {
+    min-height: 160px;
+    resize: vertical;
+  }
+
+  .wv-contact-{{ section.id }} .wv-contact__submit {
+    display: inline-block;
+    width: 100%;
+    padding: 1rem 2rem;
+    background: var(--wv-bone, #F5F0EB);
+    color: var(--wv-black, #0E0E0E);
+    border: none;
+    font-family: var(--font-body, 'Inter', sans-serif);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+    margin-top: 0.5rem;
+  }
+
+  .wv-contact-{{ section.id }} .wv-contact__submit:hover {
+    opacity: 0.85;
+  }
+
+  .wv-contact-{{ section.id }} .wv-contact__success {
+    text-align: center;
+    padding: 2rem 0;
+    color: var(--wv-bone, #F5F0EB);
+    font-size: 0.9rem;
+    letter-spacing: 0.05em;
+  }
+
+  .wv-contact-{{ section.id }} .wv-contact__errors {
+    color: #e55;
+    font-size: 0.85rem;
+    margin-bottom: 1.5rem;
+  }
+
+  @media screen and (max-width: 749px) {
+    .wv-contact-{{ section.id }} .wv-contact__inner {
+      padding: 0 1.25rem;
+    }
+  }
+</style>
+
+<div class="wv-contact-{{ section.id }}">
+  <div class="page-width">
+    <div class="wv-contact__inner">
+      {%- if section.settings.heading != blank -%}
+        <h1 class="wv-contact__heading">{{ section.settings.heading }}</h1>
+      {%- endif -%}
+
+      {%- if section.settings.email != blank -%}
+        <a href="mailto:{{ section.settings.email }}" class="wv-contact__email">{{ section.settings.email }}</a>
+      {%- endif -%}
+
+      {% form 'contact' %}
+        {%- if form.posted_successfully? -%}
+          <div class="wv-contact__success">
+            <p>Thanks for reaching out. We'll get back to you soon.</p>
+          </div>
+        {%- else -%}
+          {%- if form.errors -%}
+            <div class="wv-contact__errors">
+              {{ form.errors | default_errors }}
+            </div>
+          {%- endif -%}
+
+          <div class="wv-contact__form">
+            <div class="wv-contact__field">
+              <label class="wv-contact__label" for="wv-contact-name-{{ section.id }}">Name *</label>
+              <input
+                class="wv-contact__input"
+                type="text"
+                id="wv-contact-name-{{ section.id }}"
+                name="contact[{{ 'templates.contact.form.name' | t }}]"
+                placeholder="Your name"
+                required
+                autocomplete="name"
+                value="{{ form.name }}"
+              >
+            </div>
+
+            <div class="wv-contact__field">
+              <label class="wv-contact__label" for="wv-contact-email-{{ section.id }}">Email *</label>
+              <input
+                class="wv-contact__input"
+                type="email"
+                id="wv-contact-email-{{ section.id }}"
+                name="contact[email]"
+                placeholder="your@email.com"
+                required
+                autocomplete="email"
+                value="{{ form.email }}"
+              >
+            </div>
+
+            <div class="wv-contact__field">
+              <label class="wv-contact__label" for="wv-contact-phone-{{ section.id }}">Phone (optional)</label>
+              <input
+                class="wv-contact__input"
+                type="tel"
+                id="wv-contact-phone-{{ section.id }}"
+                name="contact[{{ 'templates.contact.form.phone' | t }}]"
+                placeholder="+91 98765 43210"
+                autocomplete="tel"
+                value="{{ form.phone }}"
+              >
+            </div>
+
+            <div class="wv-contact__field">
+              <label class="wv-contact__label" for="wv-contact-message-{{ section.id }}">Message *</label>
+              <textarea
+                class="wv-contact__textarea"
+                id="wv-contact-message-{{ section.id }}"
+                name="contact[{{ 'templates.contact.form.comment' | t }}]"
+                placeholder="How can we help?"
+                required
+              >{{ form.body }}</textarea>
+            </div>
+
+            <button type="submit" class="wv-contact__submit">Send Message</button>
+          </div>
+        {%- endif -%}
+      {% endform %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Wolvestry Contact Form",
+  "tag": "section",
+  "class": "wv-contact-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "GET IN TOUCH"
+    },
+    {
+      "type": "text",
+      "id": "email",
+      "label": "Display email",
+      "default": "hello@wolvestry.in"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Wolvestry Contact Form"
+    }
+  ]
+}
+{% endschema %}

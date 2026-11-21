@@ -1,0 +1,172 @@
+{{ 'section-wolvestry-bestsellers.css' | asset_url | stylesheet_tag }}
+
+<style>
+  .wolvestry-bestsellers {
+    padding: var(--section-spacing) 0;
+  }
+
+  .wolvestry-bestsellers__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2.5rem;
+  }
+
+  .wolvestry-bestsellers__heading {
+    font-family: var(--font-heading);
+    text-transform: uppercase;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    white-space: nowrap;
+  }
+
+  .wolvestry-bestsellers__heading::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.15);
+  }
+
+  .wolvestry-bestsellers .wolvestry-card__badge {
+    background: var(--wv-black, #0E0E0E);
+    color: #C8A96E;
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.3em 0.6em;
+  }
+
+  .wolvestry-bestsellers__view-all {
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    font-size: 0.75rem;
+    color: var(--wv-muted);
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+
+  .wolvestry-bestsellers__view-all:hover {
+    color: var(--wv-bone);
+  }
+
+  .wolvestry-bestsellers__grid {
+    display: grid;
+    grid-template-columns: repeat({{ section.settings.columns_desktop }}, 1fr);
+    gap: 2rem;
+  }
+
+  .wolvestry-bestsellers__placeholder {
+    text-align: center;
+    padding: 4rem 2rem;
+    color: var(--wv-muted);
+    font-size: 0.9rem;
+  }
+
+  @media screen and (max-width: 749px) {
+    .wolvestry-bestsellers__grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+    }
+  }
+</style>
+
+<div class="wolvestry-bestsellers color-{{ section.settings.color_scheme }}">
+  <div class="page-width">
+    <div class="wolvestry-bestsellers__header">
+      <h2 class="wolvestry-bestsellers__heading">{{ section.settings.heading }}</h2>
+      {%- if section.settings.collection != blank -%}
+        <a href="{{ collections[section.settings.collection].url }}" class="wolvestry-bestsellers__view-all">
+          View all &rarr;
+        </a>
+      {%- endif -%}
+    </div>
+
+    {%- if section.settings.collection != blank -%}
+      <div class="wolvestry-bestsellers__grid">
+        {%- for product in collections[section.settings.collection].products limit: section.settings.products_to_show -%}
+          <div class="wolvestry-bestsellers__item">
+            {% render 'wolvestry-card', card_product: product, show_quick_add: section.settings.show_quick_add %}
+          </div>
+        {%- endfor -%}
+      </div>
+    {%- else -%}
+      {%- if request.design_mode -%}
+        <div class="wolvestry-bestsellers__placeholder">
+          <p>Select a collection in the theme editor to display bestselling products.</p>
+        </div>
+      {%- endif -%}
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Wolvestry Bestsellers",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "BESTSELLERS"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "label": "Products to show",
+      "min": 4,
+      "max": 12,
+      "step": 4,
+      "default": 4
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "label": "Desktop columns",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "default": 4
+    },
+    {
+      "type": "checkbox",
+      "id": "show_quick_add",
+      "label": "Show quick add button",
+      "default": false
+    },
+    {
+      "type": "select",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "options": [
+        {
+          "value": "scheme-1",
+          "label": "Scheme 1"
+        },
+        {
+          "value": "scheme-2",
+          "label": "Scheme 2"
+        },
+        {
+          "value": "scheme-3",
+          "label": "Scheme 3"
+        }
+      ],
+      "default": "scheme-1"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Wolvestry Bestsellers"
+    }
+  ]
+}
+{% endschema %}

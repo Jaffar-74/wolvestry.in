@@ -1,0 +1,317 @@
+<style>
+  .wv-article-{{ section.id }} {
+    padding: var(--section-spacing, 4rem) 0;
+  }
+
+  .wv-article-{{ section.id }} .wv-article__inner {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .wv-article-{{ section.id }} .wv-article__back {
+    display: inline-block;
+    color: var(--wv-muted, #999);
+    text-decoration: none;
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    font-family: var(--font-body, 'Inter', sans-serif);
+    margin-bottom: 2.5rem;
+    transition: color 0.2s ease;
+  }
+
+  .wv-article-{{ section.id }} .wv-article__back:hover {
+    color: var(--wv-bone, #F5F0EB);
+  }
+
+  .wv-article-{{ section.id }} .wv-article__header {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+
+  .wv-article-{{ section.id }} .wv-article__title {
+    font-family: var(--font-heading, sans-serif);
+    font-size: clamp(2rem, 5vw, 3.6rem);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    line-height: 1.1;
+    margin: 0 0 1.25rem;
+    color: var(--wv-bone, #F5F0EB);
+  }
+
+  .wv-article-{{ section.id }} .wv-article__meta {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--wv-muted, #999);
+    font-family: var(--font-body, 'Inter', sans-serif);
+  }
+
+  .wv-article-{{ section.id }} .wv-article__featured-image {
+    margin-bottom: 3rem;
+    overflow: hidden;
+  }
+
+  .wv-article-{{ section.id }} .wv-article__featured-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .wv-article-{{ section.id }} .wv-article__content {
+    font-size: 0.95rem;
+    line-height: 1.9;
+    color: var(--wv-muted, #999);
+  }
+
+  .wv-article-{{ section.id }} .wv-article__content h1,
+  .wv-article-{{ section.id }} .wv-article__content h2,
+  .wv-article-{{ section.id }} .wv-article__content h3,
+  .wv-article-{{ section.id }} .wv-article__content h4 {
+    font-family: var(--font-heading, sans-serif);
+    color: var(--wv-bone, #F5F0EB);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .wv-article-{{ section.id }} .wv-article__content p {
+    margin: 0 0 1.5rem;
+  }
+
+  .wv-article-{{ section.id }} .wv-article__content a {
+    color: var(--wv-bone, #F5F0EB);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    transition: opacity 0.2s ease;
+  }
+
+  .wv-article-{{ section.id }} .wv-article__content a:hover {
+    opacity: 0.7;
+  }
+
+  .wv-article-{{ section.id }} .wv-article__content img {
+    max-width: 100%;
+    height: auto;
+    margin: 2rem 0;
+  }
+
+  .wv-article-{{ section.id }} .wv-article__content blockquote {
+    border-left: 2px solid rgba(255, 255, 255, 0.15);
+    padding: 0.5rem 0 0.5rem 1.5rem;
+    margin: 2rem 0;
+    font-style: italic;
+    color: var(--wv-bone, #F5F0EB);
+  }
+
+  .wv-article-{{ section.id }} .wv-article__content ul,
+  .wv-article-{{ section.id }} .wv-article__content ol {
+    padding-left: 1.5rem;
+    margin: 0 0 1.5rem;
+  }
+
+  /* Tags */
+  .wv-article-{{ section.id }} .wv-article__tags {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .wv-article-{{ section.id }} .wv-article__tag {
+    display: inline-block;
+    padding: 0.35rem 0.9rem;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: var(--wv-muted, #999);
+    text-decoration: none;
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-family: var(--font-body, 'Inter', sans-serif);
+    transition: all 0.2s ease;
+  }
+
+  .wv-article-{{ section.id }} .wv-article__tag:hover {
+    background: var(--wv-bone, #F5F0EB);
+    color: var(--wv-black, #0E0E0E);
+    border-color: var(--wv-bone, #F5F0EB);
+  }
+
+  /* Social sharing */
+  .wv-article-{{ section.id }} .wv-article__share {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+  }
+
+  .wv-article-{{ section.id }} .wv-article__share-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--wv-muted, #999);
+    font-family: var(--font-body, 'Inter', sans-serif);
+  }
+
+  .wv-article-{{ section.id }} .wv-article__share-link {
+    color: var(--wv-muted, #999);
+    text-decoration: none;
+    transition: color 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .wv-article-{{ section.id }} .wv-article__share-link:hover {
+    color: var(--wv-bone, #F5F0EB);
+  }
+
+  .wv-article-{{ section.id }} .wv-article__share-link svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  @media screen and (max-width: 749px) {
+    .wv-article-{{ section.id }} .wv-article__inner {
+      padding: 0 1.25rem;
+    }
+
+    .wv-article-{{ section.id }} .wv-article__meta {
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+  }
+</style>
+
+<div class="wv-article-{{ section.id }}">
+  <div class="page-width">
+    <div class="wv-article__inner">
+
+      {%- comment -%} Back link {%- endcomment -%}
+      <a href="{{ blog.url }}" class="wv-article__back">&larr; Back to {{ blog.title }}</a>
+
+      {%- comment -%} Header {%- endcomment -%}
+      <div class="wv-article__header">
+        <h1 class="wv-article__title">{{ article.title }}</h1>
+
+        <div class="wv-article__meta">
+          {%- if section.settings.show_author and article.author != blank -%}
+            <span>By {{ article.author }}</span>
+          {%- endif -%}
+          {%- if section.settings.show_date -%}
+            <time datetime="{{ article.published_at | date: '%Y-%m-%d' }}">
+              {{ article.published_at | date: '%B %d, %Y' }}
+            </time>
+          {%- endif -%}
+        </div>
+      </div>
+
+      {%- comment -%} Featured image {%- endcomment -%}
+      {%- if article.image -%}
+        <div class="wv-article__featured-image">
+          <img
+            src="{{ article.image | image_url: width: 1200 }}"
+            srcset="
+              {{ article.image | image_url: width: 600 }} 600w,
+              {{ article.image | image_url: width: 900 }} 900w,
+              {{ article.image | image_url: width: 1200 }} 1200w
+            "
+            sizes="(max-width: 800px) 100vw, 800px"
+            alt="{{ article.image.alt | escape | default: article.title | escape }}"
+            loading="eager"
+            width="{{ article.image.width }}"
+            height="{{ article.image.height }}"
+          >
+        </div>
+      {%- endif -%}
+
+      {%- comment -%} Content {%- endcomment -%}
+      <div class="wv-article__content rte">
+        {{ article.content }}
+      </div>
+
+      {%- comment -%} Tags {%- endcomment -%}
+      {%- if section.settings.show_tags and article.tags.size > 0 -%}
+        <div class="wv-article__tags">
+          {%- for tag in article.tags -%}
+            <a href="{{ blog.url }}/tagged/{{ tag | handle }}" class="wv-article__tag">{{ tag }}</a>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+
+      {%- comment -%} Social sharing {%- endcomment -%}
+      <div class="wv-article__share">
+        <span class="wv-article__share-label">Share</span>
+        <a
+          href="https://www.facebook.com/sharer/sharer.php?u={{ shop.url }}{{ article.url }}"
+          class="wv-article__share-link"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Share on Facebook"
+        >
+          {% render 'wolvestry-icons', name: 'facebook', size: 18 %}
+        </a>
+        <a
+          href="https://twitter.com/intent/tweet?url={{ shop.url }}{{ article.url }}&text={{ article.title | url_encode }}"
+          class="wv-article__share-link"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Share on X"
+        >
+          {% render 'wolvestry-icons', name: 'x', size: 18 %}
+        </a>
+        <a
+          href="https://pinterest.com/pin/create/button/?url={{ shop.url }}{{ article.url }}&description={{ article.title | url_encode }}"
+          class="wv-article__share-link"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Share on Pinterest"
+        >
+          {% render 'wolvestry-icons', name: 'pinterest', size: 18 %}
+        </a>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Wolvestry Article",
+  "tag": "section",
+  "class": "wv-article-section",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_date",
+      "label": "Show date",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_author",
+      "label": "Show author",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_tags",
+      "label": "Show tags",
+      "default": true
+    }
+  ],
+  "presets": [
+    {
+      "name": "Wolvestry Article"
+    }
+  ]
+}
+{% endschema %}

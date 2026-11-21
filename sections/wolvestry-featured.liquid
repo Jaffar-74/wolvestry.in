@@ -1,0 +1,344 @@
+<style>
+  .wv-featured-{{ section.id }} {
+    padding: 4rem 1.5rem;
+  }
+
+  .wv-featured-{{ section.id }} .wv-featured__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 1.5rem;
+  }
+
+  .wv-featured-{{ section.id }} .wv-featured__title {
+    font-family: var(--font-heading, sans-serif);
+    font-size: clamp(1.6rem, 4vw, 2.8rem);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin: 0;
+  }
+
+  .wv-featured-{{ section.id }} .wv-featured__view-all {
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    font-size: 0.7rem;
+    color: var(--wv-muted, #999);
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+
+  .wv-featured-{{ section.id }} .wv-featured__view-all:hover {
+    color: #fff;
+  }
+
+  .wv-featured-{{ section.id }} .wv-featured__grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 4px;
+  }
+
+  .wv-featured-{{ section.id }} .wv-featured__tile {
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: #fff;
+  }
+
+  .wv-featured-{{ section.id }} .wv-featured__tile--large {
+    grid-row: 1 / 3;
+  }
+
+  .wv-featured-{{ section.id }} .wv-featured__tile-image-wrap {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .wv-featured-{{ section.id }} .wv-featured__tile--large .wv-featured__tile-sizer {
+    padding-bottom: 120%;
+  }
+
+  .wv-featured-{{ section.id }} .wv-featured__tile--small .wv-featured__tile-sizer {
+    padding-bottom: 58%;
+  }
+
+  .wv-featured-{{ section.id }} .wv-featured__tile-sizer {
+    width: 100%;
+  }
+
+  .wv-featured-{{ section.id }} .wv-featured__tile-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+  }
+
+  .wv-featured-{{ section.id }} .wv-featured__tile:hover .wv-featured__tile-img {
+    transform: scale(1.05);
+  }
+
+  .wv-featured-{{ section.id }} .wv-featured__tile-placeholder {
+    position: absolute;
+    inset: 0;
+    background: #222;
+  }
+
+  .wv-featured-{{ section.id }} .wv-featured__tile-content {
+    padding: 1rem 0.25rem;
+  }
+
+  .wv-featured-{{ section.id }} .wv-featured__tile-category {
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    font-size: 0.65rem;
+    color: var(--wv-muted, #999);
+    margin-bottom: 0.4rem;
+  }
+
+  .wv-featured-{{ section.id }} .wv-featured__tile-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+
+  .wv-featured-{{ section.id }} .wv-featured__tile-title {
+    font-family: var(--font-heading, sans-serif);
+    font-size: clamp(1rem, 2vw, 1.4rem);
+    text-transform: uppercase;
+    line-height: 1.1;
+    margin: 0;
+  }
+
+  .wv-featured-{{ section.id }} .wv-featured__tile-price {
+    font-size: 0.85rem;
+    color: var(--wv-bone, #e8e0d5);
+    opacity: 0.9;
+    text-align: right;
+    white-space: nowrap;
+    margin-left: 1rem;
+  }
+
+  @media screen and (max-width: 767px) {
+    .wv-featured-{{ section.id }} .wv-featured__grid {
+      grid-template-columns: 1fr;
+      grid-template-rows: auto;
+    }
+
+    .wv-featured-{{ section.id }} .wv-featured__tile--large {
+      grid-row: auto;
+    }
+
+    .wv-featured-{{ section.id }} .wv-featured__tile--large .wv-featured__tile-sizer,
+    .wv-featured-{{ section.id }} .wv-featured__tile--small .wv-featured__tile-sizer {
+      padding-bottom: 100%;
+    }
+  }
+</style>
+
+<div class="wv-featured-{{ section.id }}">
+  <div class="wv-featured__header">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="wv-featured__title">{{ section.settings.heading | escape }}</h2>
+    {%- endif -%}
+
+    {%- if section.settings.view_all_label != blank -%}
+      <a
+        class="wv-featured__view-all"
+        href="{{ section.settings.view_all_link | default: '#' }}"
+      >
+        {{ section.settings.view_all_label | escape }}
+      </a>
+    {%- endif -%}
+  </div>
+
+  <div class="wv-featured__grid">
+    {%- for block in section.blocks -%}
+      {%- liquid
+        assign block_product = block.settings.product
+        assign block_collection = block.settings.collection
+
+        if block.settings.custom_title != blank
+          assign tile_title = block.settings.custom_title
+        elsif block_product != blank
+          assign tile_title = block_product.title
+        elsif block_collection != blank
+          assign tile_title = block_collection.title
+        else
+          assign tile_title = block.settings.category_label
+        endif
+
+        if block.settings.image != blank
+          assign tile_image = block.settings.image
+        elsif block_product != blank and block_product.featured_image != blank
+          assign tile_image = block_product.featured_image
+        elsif block_collection != blank and block_collection.featured_image != blank
+          assign tile_image = block_collection.featured_image
+        else
+          assign tile_image = blank
+        endif
+
+        if block_product != blank
+          assign tile_url = block_product.url
+        elsif block_collection != blank
+          assign tile_url = block_collection.url
+        else
+          assign tile_url = '#'
+        endif
+
+        if forloop.first
+          assign tile_class = 'wv-featured__tile wv-featured__tile--large'
+        else
+          assign tile_class = 'wv-featured__tile wv-featured__tile--small'
+        endif
+      -%}
+
+      <a
+        class="{{ tile_class }}"
+        href="{{ tile_url }}"
+        {{ block.shopify_attributes }}
+      >
+        <div class="wv-featured__tile-image-wrap">
+          <div class="wv-featured__tile-sizer"></div>
+
+          {%- if tile_image != blank -%}
+            <img
+              class="wv-featured__tile-img"
+              src="{{ tile_image | image_url: width: 1200 }}"
+              srcset="
+                {{ tile_image | image_url: width: 600 }} 600w,
+                {{ tile_image | image_url: width: 900 }} 900w,
+                {{ tile_image | image_url: width: 1200 }} 1200w
+              "
+              sizes="(max-width: 767px) 100vw, 60vw"
+              alt="{{ tile_image.alt | default: tile_title | escape }}"
+              loading="lazy"
+              width="{{ tile_image.width }}"
+              height="{{ tile_image.height }}"
+            >
+          {%- else -%}
+            <div class="wv-featured__tile-placeholder"></div>
+          {%- endif -%}
+        </div>
+
+        <div class="wv-featured__tile-content">
+          {%- if block.settings.category_label != blank -%}
+            <p class="wv-featured__tile-category">{{ block.settings.category_label | escape }}</p>
+          {%- endif -%}
+
+          <div class="wv-featured__tile-row">
+            {%- if tile_title != blank -%}
+              <h3 class="wv-featured__tile-title">{{ tile_title | escape }}</h3>
+            {%- endif -%}
+
+            {%- if block_product != blank and block_product.price != blank -%}
+              <p class="wv-featured__tile-price">{{ block_product.price | money }}</p>
+            {%- endif -%}
+          </div>
+        </div>
+      </a>
+    {%- endfor -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Wolvestry Featured",
+  "tag": "section",
+  "class": "wv-featured-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "THE COLLECTION"
+    },
+    {
+      "type": "text",
+      "id": "view_all_label",
+      "label": "View all label",
+      "default": "VIEW ALL"
+    },
+    {
+      "type": "url",
+      "id": "view_all_link",
+      "label": "View all link"
+    },
+    {
+      "type": "select",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "options": [
+        { "value": "scheme-1", "label": "Scheme 1" },
+        { "value": "scheme-2", "label": "Scheme 2" },
+        { "value": "scheme-3", "label": "Scheme 3" }
+      ],
+      "default": "scheme-1"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "tile",
+      "name": "Tile",
+      "limit": 3,
+      "settings": [
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Product"
+        },
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Collection"
+        },
+        {
+          "type": "text",
+          "id": "category_label",
+          "label": "Category label"
+        },
+        {
+          "type": "text",
+          "id": "custom_title",
+          "label": "Custom title (optional)"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Custom image (optional)"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Wolvestry Featured",
+      "blocks": [
+        {
+          "type": "tile",
+          "settings": {
+            "category_label": "OUTERWEAR",
+            "custom_title": "WOLF SERIES JACKET"
+          }
+        },
+        {
+          "type": "tile",
+          "settings": {
+            "category_label": "HOODIES",
+            "custom_title": "PACK HOODIE"
+          }
+        },
+        {
+          "type": "tile",
+          "settings": {
+            "category_label": "T-SHIRTS",
+            "custom_title": "SHADOW TEE"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

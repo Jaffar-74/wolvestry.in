@@ -1,0 +1,13 @@
+{
+  "sections": {
+    "banner": {
+      "type": "wolvestry-collection-banner",
+      "settings": {}
+    },
+    "product-grid": {
+      "type": "wolvestry-collection-grid",
+      "settings": {}
+    }
+  },
+  "order": ["banner", "product-grid"]
+}

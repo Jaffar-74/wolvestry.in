@@ -1,0 +1,252 @@
+<style>
+  .wv-size-guide-{{ section.id }} {
+    padding: var(--section-spacing, 4rem) 0;
+  }
+
+  .wv-size-guide-{{ section.id }} .wv-size-guide__inner {
+    max-width: 900px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .wv-size-guide-{{ section.id }} .wv-size-guide__heading {
+    font-family: var(--font-heading, sans-serif);
+    font-size: clamp(2rem, 5vw, 3.6rem);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    line-height: 1.1;
+    margin: 0 0 1rem;
+    color: var(--wv-bone, #F5F0EB);
+  }
+
+  .wv-size-guide-{{ section.id }} .wv-size-guide__note {
+    color: var(--wv-muted, #999);
+    font-size: 0.85rem;
+    line-height: 1.6;
+    margin: 0 0 3rem;
+    font-style: italic;
+  }
+
+  .wv-size-guide-{{ section.id }} .wv-size-guide__table-wrap {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .wv-size-guide-{{ section.id }} table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: center;
+    font-family: var(--font-body, 'Inter', sans-serif);
+  }
+
+  .wv-size-guide-{{ section.id }} table thead th {
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--wv-bone, #F5F0EB);
+    font-weight: 600;
+    padding: 1rem 1.25rem;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.15);
+    white-space: nowrap;
+  }
+
+  .wv-size-guide-{{ section.id }} table tbody td {
+    font-size: 0.8rem;
+    color: var(--wv-muted, #999);
+    padding: 0.85rem 1.25rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    white-space: nowrap;
+  }
+
+  .wv-size-guide-{{ section.id }} table tbody td:first-child {
+    color: var(--wv-bone, #F5F0EB);
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .wv-size-guide-{{ section.id }} table tbody tr:hover td {
+    background: rgba(255, 255, 255, 0.03);
+  }
+
+  .wv-size-guide-{{ section.id }} .wv-size-guide__unit {
+    display: inline-block;
+    font-size: 0.65rem;
+    color: var(--wv-muted, #999);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+  }
+
+  @media screen and (max-width: 749px) {
+    .wv-size-guide-{{ section.id }} .wv-size-guide__inner {
+      padding: 0 1.25rem;
+    }
+
+    .wv-size-guide-{{ section.id }} table thead th,
+    .wv-size-guide-{{ section.id }} table tbody td {
+      padding: 0.75rem 0.75rem;
+      font-size: 0.7rem;
+    }
+  }
+</style>
+
+<div class="wv-size-guide-{{ section.id }}">
+  <div class="page-width">
+    <div class="wv-size-guide__inner">
+      {%- if section.settings.heading != blank -%}
+        <h2 class="wv-size-guide__heading">{{ section.settings.heading }}</h2>
+      {%- endif -%}
+
+      <p class="wv-size-guide__note">Unisex fit. Size down for a closer fit.</p>
+
+      <span class="wv-size-guide__unit">All measurements in {{ section.settings.unit_system }}</span>
+
+      {%- if section.blocks.size > 0 -%}
+        <div class="wv-size-guide__table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Size</th>
+                <th>Chest</th>
+                <th>Length</th>
+                <th>Shoulder</th>
+              </tr>
+            </thead>
+            <tbody>
+              {%- for block in section.blocks -%}
+                {%- if block.type == 'size' -%}
+                  <tr {{ block.shopify_attributes }}>
+                    <td>{{ block.settings.size_label }}</td>
+                    <td>{{ block.settings.chest }}</td>
+                    <td>{{ block.settings.length }}</td>
+                    <td>{{ block.settings.shoulder }}</td>
+                  </tr>
+                {%- endif -%}
+              {%- endfor -%}
+            </tbody>
+          </table>
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Wolvestry Size Guide",
+  "tag": "section",
+  "class": "wv-size-guide-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "SIZE GUIDE"
+    },
+    {
+      "type": "select",
+      "id": "unit_system",
+      "label": "Unit system",
+      "options": [
+        { "value": "cm", "label": "Centimeters (cm)" },
+        { "value": "inches", "label": "Inches (in)" }
+      ],
+      "default": "cm"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "size",
+      "name": "Size Row",
+      "settings": [
+        {
+          "type": "text",
+          "id": "size_label",
+          "label": "Size label",
+          "default": "M"
+        },
+        {
+          "type": "text",
+          "id": "chest",
+          "label": "Chest",
+          "default": "104"
+        },
+        {
+          "type": "text",
+          "id": "length",
+          "label": "Length",
+          "default": "72"
+        },
+        {
+          "type": "text",
+          "id": "shoulder",
+          "label": "Shoulder",
+          "default": "48"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Wolvestry Size Guide",
+      "blocks": [
+        {
+          "type": "size",
+          "settings": {
+            "size_label": "XS",
+            "chest": "96",
+            "length": "68",
+            "shoulder": "44"
+          }
+        },
+        {
+          "type": "size",
+          "settings": {
+            "size_label": "S",
+            "chest": "100",
+            "length": "70",
+            "shoulder": "46"
+          }
+        },
+        {
+          "type": "size",
+          "settings": {
+            "size_label": "M",
+            "chest": "104",
+            "length": "72",
+            "shoulder": "48"
+          }
+        },
+        {
+          "type": "size",
+          "settings": {
+            "size_label": "L",
+            "chest": "110",
+            "length": "74",
+            "shoulder": "50"
+          }
+        },
+        {
+          "type": "size",
+          "settings": {
+            "size_label": "XL",
+            "chest": "116",
+            "length": "76",
+            "shoulder": "52"
+          }
+        },
+        {
+          "type": "size",
+          "settings": {
+            "size_label": "XXL",
+            "chest": "122",
+            "length": "78",
+            "shoulder": "54"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

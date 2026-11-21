@@ -1,0 +1,9 @@
+{
+  "sections": {
+    "main": {
+      "type": "wolvestry-contact-form",
+      "settings": {}
+    }
+  },
+  "order": ["main"]
+}

@@ -1,0 +1,353 @@
+{%- liquid
+  assign products_per_page = section.settings.products_per_page
+  assign columns_desktop = section.settings.columns_desktop
+  assign enable_filtering = section.settings.enable_filtering
+  assign enable_sorting = section.settings.enable_sorting
+-%}
+
+<style>
+  .wv-collection-grid-{{ section.id }} {
+    padding: var(--section-spacing, 4rem) 0;
+  }
+
+  .wv-collection-grid-{{ section.id }} .wv-collection-grid__toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .wv-collection-grid-{{ section.id }} .wv-collection-grid__count {
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--wv-muted, #999);
+    font-family: var(--font-body, 'Inter', sans-serif);
+  }
+
+  .wv-collection-grid-{{ section.id }} .wv-collection-grid__sort {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .wv-collection-grid-{{ section.id }} .wv-collection-grid__sort label {
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--wv-muted, #999);
+    font-family: var(--font-body, 'Inter', sans-serif);
+  }
+
+  .wv-collection-grid-{{ section.id }} .wv-collection-grid__sort select {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: var(--wv-bone, #F5F0EB);
+    font-family: var(--font-body, 'Inter', sans-serif);
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    padding: 0.5rem 2rem 0.5rem 0.75rem;
+    appearance: none;
+    -webkit-appearance: none;
+    cursor: pointer;
+    outline: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23999' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.5rem center;
+  }
+
+  .wv-collection-grid-{{ section.id }} .wv-collection-grid__filters {
+    margin-bottom: 2rem;
+  }
+
+  .wv-collection-grid-{{ section.id }} .wv-collection-grid__filter-group {
+    margin-bottom: 1.5rem;
+  }
+
+  .wv-collection-grid-{{ section.id }} .wv-collection-grid__filter-heading {
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--wv-bone, #F5F0EB);
+    font-family: var(--font-body, 'Inter', sans-serif);
+    font-weight: 600;
+    margin: 0 0 0.75rem;
+  }
+
+  .wv-collection-grid-{{ section.id }} .wv-collection-grid__filter-values {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .wv-collection-grid-{{ section.id }} .wv-collection-grid__filter-value {
+    display: inline-block;
+    padding: 0.4rem 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: var(--wv-muted, #999);
+    text-decoration: none;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-family: var(--font-body, 'Inter', sans-serif);
+    transition: all 0.2s ease;
+  }
+
+  .wv-collection-grid-{{ section.id }} .wv-collection-grid__filter-value:hover,
+  .wv-collection-grid-{{ section.id }} .wv-collection-grid__filter-value--active {
+    background: var(--wv-bone, #F5F0EB);
+    color: var(--wv-black, #0E0E0E);
+    border-color: var(--wv-bone, #F5F0EB);
+  }
+
+  .wv-collection-grid-{{ section.id }} .wv-collection-grid__active-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .wv-collection-grid-{{ section.id }} .wv-collection-grid__active-filter {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.35rem 0.75rem;
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--wv-bone, #F5F0EB);
+    text-decoration: none;
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-family: var(--font-body, 'Inter', sans-serif);
+    transition: background 0.2s ease;
+  }
+
+  .wv-collection-grid-{{ section.id }} .wv-collection-grid__active-filter:hover {
+    background: rgba(255, 255, 255, 0.15);
+  }
+
+  .wv-collection-grid-{{ section.id }} .wv-collection-grid__grid {
+    display: grid;
+    grid-template-columns: repeat({{ columns_desktop }}, 1fr);
+    gap: 2rem;
+  }
+
+  .wv-collection-grid-{{ section.id }} .wv-collection-grid__empty {
+    text-align: center;
+    padding: 4rem 2rem;
+    color: var(--wv-muted, #999);
+    font-size: 0.9rem;
+    grid-column: 1 / -1;
+  }
+
+  .wv-collection-grid-{{ section.id }} .wv-collection-grid__pagination {
+    margin-top: 4rem;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+
+  .wv-collection-grid-{{ section.id }} .wv-collection-grid__pagination a,
+  .wv-collection-grid-{{ section.id }} .wv-collection-grid__pagination span.current {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 40px;
+    height: 40px;
+    padding: 0 0.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: var(--wv-muted, #999);
+    text-decoration: none;
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    font-family: var(--font-body, 'Inter', sans-serif);
+    transition: all 0.2s ease;
+  }
+
+  .wv-collection-grid-{{ section.id }} .wv-collection-grid__pagination a:hover {
+    background: var(--wv-bone, #F5F0EB);
+    color: var(--wv-black, #0E0E0E);
+    border-color: var(--wv-bone, #F5F0EB);
+  }
+
+  .wv-collection-grid-{{ section.id }} .wv-collection-grid__pagination span.current {
+    background: var(--wv-bone, #F5F0EB);
+    color: var(--wv-black, #0E0E0E);
+    border-color: var(--wv-bone, #F5F0EB);
+  }
+
+  @media screen and (max-width: 749px) {
+    .wv-collection-grid-{{ section.id }} .wv-collection-grid__grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+    }
+
+    .wv-collection-grid-{{ section.id }} .wv-collection-grid__toolbar {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+</style>
+
+<div class="wv-collection-grid-{{ section.id }}">
+  <div class="page-width">
+
+    {%- comment -%} Active filters display {%- endcomment -%}
+    {%- if enable_filtering -%}
+      {%- assign active_filters = collection.filters | where: 'active_values' -%}
+      {%- if active_filters.size > 0 -%}
+        <div class="wv-collection-grid__active-filters">
+          {%- for filter in collection.filters -%}
+            {%- for value in filter.active_values -%}
+              <a href="{{ value.url_to_remove }}" class="wv-collection-grid__active-filter">
+                {{ value.label }} &times;
+              </a>
+            {%- endfor -%}
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+    {%- endif -%}
+
+    {%- comment -%} Toolbar: count and sort {%- endcomment -%}
+    <div class="wv-collection-grid__toolbar">
+      <span class="wv-collection-grid__count">
+        {{ collection.products_count }} {{ collection.products_count | pluralize: 'product', 'products' }}
+      </span>
+
+      {%- if enable_sorting -%}
+        <div class="wv-collection-grid__sort">
+          <label for="wv-sort-{{ section.id }}">Sort by</label>
+          {%- assign sort_by = collection.sort_by | default: collection.default_sort_by -%}
+          <select id="wv-sort-{{ section.id }}" onchange="window.location.href = this.value;">
+            {%- for option in collection.sort_options -%}
+              <option
+                value="{{ option.url }}"
+                {% if option.value == sort_by %}selected{% endif %}
+              >
+                {{ option.name }}
+              </option>
+            {%- endfor -%}
+          </select>
+        </div>
+      {%- endif -%}
+    </div>
+
+    {%- comment -%} Filter groups {%- endcomment -%}
+    {%- if enable_filtering and collection.filters.size > 0 -%}
+      <div class="wv-collection-grid__filters">
+        {%- for filter in collection.filters -%}
+          {%- if filter.type == 'list' -%}
+            <div class="wv-collection-grid__filter-group">
+              <h3 class="wv-collection-grid__filter-heading">{{ filter.label }}</h3>
+              <div class="wv-collection-grid__filter-values">
+                {%- for value in filter.values -%}
+                  <a
+                    href="{{ value.url }}"
+                    class="wv-collection-grid__filter-value{% if value.active %} wv-collection-grid__filter-value--active{% endif %}"
+                    {% if value.count == 0 and value.active == false %}aria-disabled="true"{% endif %}
+                  >
+                    {{ value.label }} ({{ value.count }})
+                  </a>
+                {%- endfor -%}
+              </div>
+            </div>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+
+    {%- comment -%} Product grid {%- endcomment -%}
+    {%- paginate collection.products by products_per_page -%}
+      <div class="wv-collection-grid__grid">
+        {%- if collection.products.size > 0 -%}
+          {%- for product in collection.products -%}
+            <div class="wv-collection-grid__item">
+              {% render 'wolvestry-card', card_product: product %}
+            </div>
+          {%- endfor -%}
+        {%- else -%}
+          <div class="wv-collection-grid__empty">
+            <p>No products found. Try removing a filter or browsing all products.</p>
+            <a href="/collections/all" style="color: var(--wv-bone); text-decoration: underline; font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase;">
+              Browse all
+            </a>
+          </div>
+        {%- endif -%}
+      </div>
+
+      {%- if paginate.pages > 1 -%}
+        <div class="wv-collection-grid__pagination">
+          {%- if paginate.previous -%}
+            <a href="{{ paginate.previous.url }}" aria-label="Previous page">&larr;</a>
+          {%- endif -%}
+          {%- for part in paginate.parts -%}
+            {%- if part.is_link -%}
+              <a href="{{ part.url }}">{{ part.title }}</a>
+            {%- else -%}
+              {%- if part.title == paginate.current_page -%}
+                <span class="current">{{ part.title }}</span>
+              {%- else -%}
+                <span>{{ part.title }}</span>
+              {%- endif -%}
+            {%- endif -%}
+          {%- endfor -%}
+          {%- if paginate.next -%}
+            <a href="{{ paginate.next.url }}" aria-label="Next page">&rarr;</a>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+    {%- endpaginate -%}
+
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Wolvestry Collection Grid",
+  "tag": "section",
+  "class": "wv-collection-grid-section",
+  "settings": [
+    {
+      "type": "range",
+      "id": "products_per_page",
+      "label": "Products per page",
+      "min": 4,
+      "max": 48,
+      "step": 4,
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "label": "Desktop columns",
+      "min": 2,
+      "max": 5,
+      "step": 1,
+      "default": 4
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_filtering",
+      "label": "Enable filtering",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_sorting",
+      "label": "Enable sorting",
+      "default": true
+    }
+  ],
+  "presets": [
+    {
+      "name": "Wolvestry Collection Grid"
+    }
+  ]
+}
+{% endschema %}

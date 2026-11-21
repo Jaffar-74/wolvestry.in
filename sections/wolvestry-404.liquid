@@ -1,0 +1,98 @@
+<style>
+  .wv-404-{{ section.id }} {
+    padding: 8rem 2rem;
+    text-align: center;
+    min-height: 60vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .wv-404-{{ section.id }} .wv-404__inner {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .wv-404-{{ section.id }} .wv-404__heading {
+    font-family: var(--font-heading, sans-serif);
+    font-size: clamp(2.8rem, 7vw, 5rem);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    line-height: 1;
+    margin: 0 0 1.25rem;
+    color: var(--wv-bone, #F5F0EB);
+  }
+
+  .wv-404-{{ section.id }} .wv-404__subtext {
+    color: var(--wv-muted, #999);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin: 0 0 2.5rem;
+  }
+
+  .wv-404-{{ section.id }} .wv-404__btn {
+    display: inline-block;
+    padding: 0.9rem 2.4rem;
+    border: 1px solid var(--wv-bone, #F5F0EB);
+    color: var(--wv-bone, #F5F0EB);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    font-size: 0.75rem;
+    text-decoration: none;
+    font-family: var(--font-body, 'Inter', sans-serif);
+    transition: background 0.3s ease, color 0.3s ease;
+  }
+
+  .wv-404-{{ section.id }} .wv-404__btn:hover {
+    background: var(--wv-bone, #F5F0EB);
+    color: var(--wv-black, #0E0E0E);
+  }
+</style>
+
+<div class="wv-404-{{ section.id }}">
+  <div class="wv-404__inner">
+    <h1 class="wv-404__heading">{{ section.settings.heading }}</h1>
+    <p class="wv-404__subtext">{{ section.settings.subtext }}</p>
+    <a href="{{ section.settings.button_link | default: '/collections/all' }}" class="wv-404__btn">
+      {{ section.settings.button_label }}
+    </a>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Wolvestry 404",
+  "tag": "section",
+  "class": "wv-404-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "LOST IN THE WILD."
+    },
+    {
+      "type": "text",
+      "id": "subtext",
+      "label": "Subtext",
+      "default": "The page you're looking for doesn't exist."
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "BACK TO SHOP"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Wolvestry 404"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,37 @@
+{
+  "sections": {
+    "main-product": {
+      "type": "wolvestry-product",
+      "settings": {},
+      "blocks": {
+        "tab_size": {
+          "type": "tab",
+          "settings": {
+            "title": "SIZE GUIDE",
+            "content": "<p>Please refer to our size guide page for detailed measurements.</p>"
+          }
+        },
+        "tab_fabric": {
+          "type": "tab",
+          "settings": {
+            "title": "FABRIC & CARE",
+            "content": "<p>Premium quality fabric. Machine wash cold. Do not bleach. Tumble dry low.</p>"
+          }
+        },
+        "tab_shipping": {
+          "type": "tab",
+          "settings": {
+            "title": "SHIPPING & RETURNS",
+            "content": "<p>Free shipping on orders above ₹999. Easy returns within 7 days.</p>"
+          }
+        }
+      },
+      "block_order": ["tab_size", "tab_fabric", "tab_shipping"]
+    },
+    "related": {
+      "type": "wolvestry-related-products",
+      "settings": {}
+    }
+  },
+  "order": ["main-product", "related"]
+}

@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="{{ request.locale.iso_code }}">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, height=device-height, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>
+    {{ page_title }}
+    {%- if current_tags %} &ndash; tagged "{{ current_tags | join: ', ' }}"{% endif -%}
+    {%- if current_page != 1 %} &ndash; Page {{ current_page }}{% endif -%}
+    {%- unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}
+  </title>
+
+  {% if page_description %}
+    <meta name="description" content="{{ page_description | escape }}">
+  {% endif %}
+
+  <link rel="canonical" href="{{ canonical_url }}">
+
+  <!-- Open Graph -->
+  <meta property="og:site_name" content="{{ shop.name }}">
+  <meta property="og:url" content="{{ canonical_url }}">
+  <meta property="og:title" content="{{ page_title | escape }}">
+  <meta property="og:type" content="website">
+  {% if page_description %}
+    <meta property="og:description" content="{{ page_description | escape }}">
+  {% endif %}
+  {% if page_image %}
+    <meta property="og:image" content="http:{{ page_image | image_url }}">
+    <meta property="og:image:secure_url" content="https:{{ page_image | image_url }}">
+  {% endif %}
+  <meta name="twitter:card" content="summary_large_image">
+
+  <!-- Favicon -->
+  {% if settings.favicon != blank %}
+    <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">
+  {% endif %}
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;800&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- Theme stylesheet -->
+  <link rel="stylesheet" href="{{ 'wolvestry.css' | asset_url }}">
+
+  <style>
+    :root {
+      --wv-black: {{ settings.color_black | default: '#0E0E0E' }};
+      --wv-bone: {{ settings.color_bone | default: '#EDE8DF' }};
+      --wv-gunmetal: {{ settings.color_gunmetal | default: '#5A5F66' }};
+      --wv-muted: {{ settings.color_muted | default: '#9AA0A6' }};
+      --wv-panel: {{ settings.color_panel | default: '#1A1A1A' }};
+      --wv-oxblood: {{ settings.color_oxblood | default: '#5C1A1B' }};
+      --page-width: {{ settings.page_width | default: '1600px' }};
+      --section-spacing: {{ settings.section_spacing | default: '10rem' }};
+      --font-heading: 'Barlow Condensed', sans-serif;
+      --font-body: 'Inter', sans-serif;
+      --corner-radius: {{ settings.corner_radius | default: '0px' }};
+    }
+
+    /* ── Reset ── */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      font-size: 16px;
+      -webkit-text-size-adjust: 100%;
+    }
+
+    /* ── Body ── */
+    body {
+      background: var(--wv-black);
+      color: var(--wv-bone);
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* ── Headings ── */
+    h1, h2, h3, h4, h5, h6 {
+      font-family: var(--font-heading);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      line-height: 0.9;
+      font-weight: 800;
+    }
+
+    h1 { font-size: clamp(3.2rem, 8vw, 10rem); }
+    h2 { font-size: clamp(2.4rem, 5vw, 5rem); }
+    h3 { font-size: clamp(1.6rem, 3vw, 2.4rem); }
+
+    /* ── Links ── */
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    /* ── Images ── */
+    img {
+      max-width: 100%;
+      display: block;
+      border-radius: var(--corner-radius);
+    }
+
+    /* ── Page width ── */
+    .page-width {
+      max-width: var(--page-width);
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    /* ── Buttons ── */
+    .wv-btn {
+      display: inline-block;
+      background: transparent;
+      border: 1px solid var(--wv-bone);
+      color: var(--wv-bone);
+      text-transform: uppercase;
+      letter-spacing: 0.25em;
+      font-family: var(--font-body);
+      font-size: 0.75rem;
+      padding: 1.2em 3em;
+      cursor: pointer;
+      border-radius: var(--corner-radius);
+      transition: all 0.3s ease;
+    }
+
+    .wv-btn:hover {
+      background: var(--wv-bone);
+      color: var(--wv-black);
+    }
+
+    .wv-btn--solid {
+      background: var(--wv-bone);
+      color: var(--wv-black);
+    }
+
+    .wv-btn--solid:hover {
+      background: transparent;
+      color: var(--wv-bone);
+    }
+
+    /* ── Color schemes ── */
+    .color-scheme-1 {
+      background: var(--wv-black);
+      color: var(--wv-bone);
+    }
+
+    .color-scheme-2 {
+      background: #EDE8DF;
+      color: #0E0E0E;
+    }
+
+    .color-scheme-2 .wv-btn {
+      border-color: #0E0E0E;
+      color: #0E0E0E;
+    }
+
+    .color-scheme-2 .wv-btn:hover {
+      background: #0E0E0E;
+      color: #EDE8DF;
+    }
+
+    .color-scheme-2 .wv-btn--solid {
+      background: #0E0E0E;
+      color: #EDE8DF;
+    }
+
+    .color-scheme-2 .wv-btn--solid:hover {
+      background: transparent;
+      color: #0E0E0E;
+    }
+
+    .color-scheme-3 {
+      background: #5A5F66;
+      color: #EDE8DF;
+    }
+
+    /* ── Accessibility ── */
+    .visually-hidden {
+      position: absolute !important;
+      width: 1px !important;
+      height: 1px !important;
+      padding: 0 !important;
+      margin: -1px !important;
+      overflow: hidden !important;
+      clip: rect(0, 0, 0, 0) !important;
+      white-space: nowrap !important;
+      border: 0 !important;
+    }
+
+    .skip-to-content {
+      position: absolute;
+      top: -100%;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 9999;
+      background: var(--wv-bone);
+      color: var(--wv-black);
+      padding: 1em 2em;
+      font-family: var(--font-body);
+      font-size: 0.875rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      border-radius: 0 0 4px 4px;
+    }
+
+    .skip-to-content:focus {
+      top: 0;
+    }
+
+    /* ── Reduced motion ── */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+
+    /* ── Mobile ── */
+    @media (max-width: 768px) {
+      :root {
+        --section-spacing: 5rem;
+      }
+
+      .page-width {
+        padding: 0 1.5rem;
+      }
+    }
+  </style>
+
+  {{ content_for_header }}
+</head>
+<body>
+  <a class="skip-to-content" href="#MainContent">{{ 'accessibility.skip_to_content' | t }}</a>
+
+  {% sections 'header-group' %}
+
+  <main id="MainContent" role="main">
+    {{ content_for_layout }}
+  </main>
+
+  {% sections 'footer-group' %}
+
+  <script src="{{ 'wolvestry.js' | asset_url }}" defer></script>
+</body>
+</html>

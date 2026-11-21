@@ -1,0 +1,211 @@
+{% comment %}
+  Wolvestry Product Card
+  Usage: {% render 'wolvestry-card', card_product: product, show_quick_add: false %}
+{% endcomment %}
+
+{%- liquid
+  assign card_product = card_product | default: product
+  assign show_quick_add = show_quick_add | default: false
+
+  assign on_sale = false
+  if card_product.compare_at_price > card_product.price
+    assign on_sale = true
+  endif
+
+  assign badge_text = ''
+  if card_product.tags contains 'bestseller'
+    assign badge_text = 'sections.bestsellers.badge_bestseller' | t
+  elsif card_product.tags contains 'new'
+    assign badge_text = 'sections.bestsellers.badge_new' | t
+  elsif on_sale
+    assign badge_text = 'sections.bestsellers.badge_sale' | t
+  endif
+
+  assign has_secondary_image = false
+  if card_product.images.size > 1
+    assign has_secondary_image = true
+  endif
+
+  assign primary_image = card_product.featured_image
+  if has_secondary_image
+    assign secondary_image = card_product.images[1]
+  endif
+-%}
+
+<style>
+  .wv-card {
+    position: relative;
+    display: block;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .wv-card__image-wrap {
+    position: relative;
+    overflow: hidden;
+    padding-bottom: 125%;
+    background-color: var(--wv-card-bg, #f5f5f5);
+  }
+
+  .wv-card__image-wrap img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.6s ease;
+  }
+
+  .wv-card__image--primary {
+    z-index: 1;
+  }
+
+  .wv-card__image--secondary {
+    z-index: 0;
+    opacity: 0;
+  }
+
+  .wv-card:hover .wv-card__image--primary {
+    transform: scale(1.06);
+  }
+
+  .wv-card:hover .wv-card__image--secondary {
+    opacity: 1;
+    transform: scale(1.06);
+  }
+
+  .wv-card__badge {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    z-index: 2;
+    padding: 4px 10px;
+    background-color: var(--wv-accent, #000);
+    color: var(--wv-accent-text, #fff);
+    font-family: var(--font-body);
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    line-height: 1.4;
+  }
+
+  .wv-card__info {
+    padding: 12px 0 0;
+    text-align: left;
+  }
+
+  .wv-card__title {
+    margin: 0;
+    font-family: var(--font-body);
+    font-size: 0.8rem;
+    font-weight: 400;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    line-height: 1.4;
+    color: var(--wv-text, #111);
+  }
+
+  .wv-card__price {
+    margin-top: 4px;
+    font-family: var(--font-body);
+    font-size: 0.8rem;
+    letter-spacing: 0.08em;
+    color: var(--wv-muted, #777);
+  }
+
+  .wv-card__price--sale .wv-card__compare-price {
+    text-decoration: line-through;
+    margin-right: 8px;
+    opacity: 0.6;
+  }
+
+  .wv-card__quick-add {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 3;
+    padding: 10px;
+    background-color: var(--wv-accent, #000);
+    color: var(--wv-accent-text, #fff);
+    font-family: var(--font-body);
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    text-align: center;
+    border: none;
+    cursor: pointer;
+    opacity: 0;
+    transform: translateY(100%);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+
+  .wv-card__image-wrap:hover .wv-card__quick-add {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>
+
+{%- if card_product and card_product != empty -%}
+  <div class="wv-card">
+    <a href="{{ card_product.url }}" class="wv-card__link" aria-label="{{ card_product.title | escape }}">
+      <div class="wv-card__image-wrap">
+        {%- if badge_text != blank -%}
+          <span class="wv-card__badge">{{ badge_text }}</span>
+        {%- endif -%}
+
+        {%- if primary_image -%}
+          <img
+            class="wv-card__image wv-card__image--primary"
+            src="{{ primary_image | image_url: width: 600 }}"
+            alt="{{ primary_image.alt | escape | default: card_product.title | escape }}"
+            width="600"
+            height="{{ 600 | divided_by: primary_image.aspect_ratio | round }}"
+            loading="lazy"
+          >
+        {%- endif -%}
+
+        {%- if has_secondary_image -%}
+          <img
+            class="wv-card__image wv-card__image--secondary"
+            src="{{ secondary_image | image_url: width: 600 }}"
+            alt="{{ secondary_image.alt | escape | default: card_product.title | escape }}"
+            width="600"
+            height="{{ 600 | divided_by: secondary_image.aspect_ratio | round }}"
+            loading="lazy"
+          >
+        {%- endif -%}
+
+        {%- if show_quick_add -%}
+          <button
+            type="button"
+            class="wv-card__quick-add"
+            data-product-id="{{ card_product.id }}"
+            data-variant-id="{{ card_product.selected_or_first_available_variant.id }}"
+            aria-label="{{ 'sections.bestsellers.quick_add' | t }} — {{ card_product.title | escape }}"
+          >
+            {{ 'sections.bestsellers.quick_add' | t }}
+          </button>
+        {%- endif -%}
+      </div>
+
+      <div class="wv-card__info">
+        <h3 class="wv-card__title">{{ card_product.title }}</h3>
+
+        <div class="wv-card__price{% if on_sale %} wv-card__price--sale{% endif %}">
+          {%- if on_sale -%}
+            <span class="wv-card__compare-price">{{ card_product.compare_at_price | money }}</span>
+          {%- endif -%}
+          <span class="wv-card__current-price">
+            {%- if card_product.price_varies -%}
+              {{ 'products.product.price.from_price_html' | t: price: card_product.price_min | money }}
+            {%- else -%}
+              {{ card_product.price | money }}
+            {%- endif -%}
+          </span>
+        </div>
+      </div>
+    </a>
+  </div>
+{%- endif -%}

@@ -1,0 +1,9 @@
+{
+  "sections": {
+    "main": {
+      "type": "wolvestry-blog",
+      "settings": {}
+    }
+  },
+  "order": ["main"]
+}

@@ -1,0 +1,121 @@
+{%- liquid
+  assign heading = section.settings.heading
+  assign products_to_show = section.settings.products_to_show
+-%}
+
+<style>
+  .wv-related-{{ section.id }} {
+    padding: var(--section-spacing, 4rem) 0;
+  }
+
+  .wv-related-{{ section.id }} .wv-related__heading {
+    font-family: var(--font-heading, sans-serif);
+    font-size: clamp(1.6rem, 4vw, 2.4rem);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    text-align: center;
+    margin: 0 0 2.5rem;
+    color: var(--wv-bone, #F5F0EB);
+  }
+
+  .wv-related-{{ section.id }} .wv-related__grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+  }
+
+  .wv-related-{{ section.id }} .wv-related__empty {
+    text-align: center;
+    padding: 3rem 2rem;
+    color: var(--wv-muted, #999);
+    font-size: 0.85rem;
+    grid-column: 1 / -1;
+  }
+
+  @media screen and (max-width: 749px) {
+    .wv-related-{{ section.id }} .wv-related__grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+    }
+  }
+</style>
+
+<div class="wv-related-{{ section.id }}" data-section-id="{{ section.id }}" data-product-id="{{ product.id }}" data-limit="{{ products_to_show }}">
+  <div class="page-width">
+    {%- if heading != blank -%}
+      <h2 class="wv-related__heading">{{ heading }}</h2>
+    {%- endif -%}
+
+    <div class="wv-related__grid" id="wv-related-grid-{{ section.id }}">
+      {%- if recommendations.performed and recommendations.products_count > 0 -%}
+        {%- for recommendation in recommendations.products limit: products_to_show -%}
+          <div class="wv-related__item">
+            {% render 'wolvestry-card', card_product: recommendation %}
+          </div>
+        {%- endfor -%}
+      {%- else -%}
+        {%- if request.design_mode -%}
+          <div class="wv-related__empty">
+            <p>Product recommendations will appear here.</p>
+          </div>
+        {%- endif -%}
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+<script>
+  (function () {
+    var section = document.querySelector('[data-section-id="{{ section.id }}"]');
+    if (!section) return;
+
+    var productId = section.getAttribute('data-product-id');
+    var limit = section.getAttribute('data-limit') || 4;
+    var grid = document.getElementById('wv-related-grid-{{ section.id }}');
+
+    if (!productId || !grid) return;
+
+    var url = '/recommendations/products.json?product_id=' + productId + '&limit=' + limit + '&section_id={{ section.id }}';
+
+    fetch(url)
+      .then(function (response) { return response.text(); })
+      .then(function (text) {
+        var html = new DOMParser().parseFromString(text, 'text/html');
+        var newGrid = html.getElementById('wv-related-grid-{{ section.id }}');
+        if (newGrid && newGrid.innerHTML.trim() !== '') {
+          grid.innerHTML = newGrid.innerHTML;
+        }
+      })
+      .catch(function () {});
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Wolvestry Related Products",
+  "tag": "section",
+  "class": "wv-related-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "YOU MAY ALSO LIKE"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "label": "Products to show",
+      "min": 2,
+      "max": 8,
+      "step": 1,
+      "default": 4
+    }
+  ],
+  "presets": [
+    {
+      "name": "Wolvestry Related Products"
+    }
+  ]
+}
+{% endschema %}

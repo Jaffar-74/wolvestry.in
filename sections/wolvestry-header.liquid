@@ -1,0 +1,661 @@
+{% comment %}
+  Wolvestry Header Section
+  - Transparent over hero on homepage, solid on other pages
+  - Fixed position with scroll-based state change
+{% endcomment %}
+
+{%- liquid
+  assign is_homepage = false
+  if template.name == 'index'
+    assign is_homepage = true
+  endif
+-%}
+
+<style>
+  :root {
+    --header-height: 72px;
+  }
+
+  .wolvestry-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 999;
+    transition: background 0.3s ease, box-shadow 0.3s ease;
+    height: var(--header-height);
+  }
+
+  /* Non-homepage: always solid */
+  .wolvestry-header {
+    background: #0E0E0E;
+  }
+
+  /* Homepage: start transparent */
+  .template-index .wolvestry-header {
+    background: transparent;
+  }
+
+  /* Scrolled state (both homepage and non-homepage) */
+  .wolvestry-header.header--scrolled {
+    background: rgba(14, 14, 14, 0.95);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.05);
+  }
+
+  .header__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: var(--header-height);
+    padding: 0 2rem;
+    max-width: 1440px;
+    margin: 0 auto;
+  }
+
+  /* --- Left Column: Logo + Brand --- */
+  .header__left {
+    flex: 1;
+    display: flex;
+    align-items: center;
+  }
+
+  /* --- Center Column: Navigation --- */
+  .header__nav {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .header__nav-item {
+    position: relative;
+  }
+
+  .header__nav-link {
+    color: var(--wv-muted, #999);
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    font-size: 0.7rem;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    transition: color 0.2s ease;
+    padding: 0.5rem 0;
+    display: inline-block;
+    position: relative;
+  }
+
+  .header__nav-link:hover {
+    color: var(--wv-bone, #F5F0EB);
+  }
+
+  .header__nav-link--active {
+    color: var(--wv-bone, #F5F0EB);
+  }
+
+  .header__nav-link--active::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: var(--wv-bone, #F5F0EB);
+  }
+
+  /* --- Dropdown --- */
+  .header__dropdown {
+    position: absolute;
+    top: 100%;
+    left: -1rem;
+    min-width: 200px;
+    background: rgba(14, 14, 14, 0.98);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 1rem 0;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(4px);
+    transition: opacity 0.25s ease, visibility 0.25s ease, transform 0.25s ease;
+    list-style: none;
+    margin: 0;
+    z-index: 1000;
+  }
+
+  .header__nav-item:hover .header__dropdown,
+  .header__nav-item.dropdown--open .header__dropdown {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  .header__dropdown-link {
+    display: block;
+    padding: 0.6rem 1.5rem;
+    color: var(--wv-muted, #999);
+    text-decoration: none;
+    font-size: 0.75rem;
+    font-family: 'Inter', sans-serif;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    transition: color 0.2s ease, padding-left 0.2s ease;
+  }
+
+  .header__dropdown-link:hover {
+    color: var(--wv-bone, #F5F0EB);
+    padding-left: 1.75rem;
+  }
+
+  /* --- Center Column: Navigation (Desktop) --- */
+  .header__center {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .header__logo-link {
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .header__logo-image {
+    display: block;
+    height: auto;
+  }
+
+  .header__logo-text {
+    color: var(--wv-bone, #F5F0EB);
+    font-family: var(--wv-font-heading, 'Inter', sans-serif);
+    font-size: 1.4rem;
+    font-weight: 700;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+  }
+
+  /* --- Right Column: Icons --- */
+  .header__right {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 1.25rem;
+  }
+
+  .header__icon-btn {
+    background: none;
+    border: none;
+    color: var(--wv-bone, #F5F0EB);
+    cursor: pointer;
+    padding: 0.4rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    transition: opacity 0.2s ease;
+  }
+
+  .header__icon-btn:hover {
+    opacity: 0.7;
+  }
+
+  .header__icon-btn svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .header__cart-count {
+    position: absolute;
+    top: -4px;
+    right: -6px;
+    background: var(--wv-accent, #fff);
+    color: var(--wv-black, #0E0E0E);
+    font-size: 0.55rem;
+    font-weight: 700;
+    font-family: 'Inter', sans-serif;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+  }
+
+  .header__cart-count:empty,
+  .header__cart-count[data-count="0"] {
+    display: none;
+  }
+
+  /* --- Mobile Hamburger --- */
+  .header__hamburger {
+    display: none;
+    background: none;
+    border: none;
+    color: var(--wv-bone, #F5F0EB);
+    cursor: pointer;
+    padding: 0.4rem;
+  }
+
+  .header__hamburger svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  /* --- Mobile Drawer --- */
+  .header__mobile-drawer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1001;
+    pointer-events: none;
+    visibility: hidden;
+  }
+
+  .header__mobile-drawer.drawer--open {
+    pointer-events: auto;
+    visibility: visible;
+  }
+
+  .header__drawer-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .drawer--open .header__drawer-overlay {
+    opacity: 1;
+  }
+
+  .header__drawer-panel {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 320px;
+    max-width: 85vw;
+    height: 100%;
+    background: #0E0E0E;
+    transform: translateX(-100%);
+    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+  }
+
+  .drawer--open .header__drawer-panel {
+    transform: translateX(0);
+  }
+
+  .header__drawer-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .header__drawer-close {
+    background: none;
+    border: none;
+    color: var(--wv-bone, #F5F0EB);
+    cursor: pointer;
+    padding: 0.25rem;
+  }
+
+  .header__drawer-close svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .header__drawer-nav {
+    list-style: none;
+    margin: 0;
+    padding: 1.5rem;
+    flex: 1;
+  }
+
+  .header__drawer-nav-item {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .header__drawer-nav-link {
+    display: block;
+    padding: 1rem 0;
+    color: var(--wv-bone, #F5F0EB);
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.25em;
+    font-size: 0.8rem;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+  }
+
+  .header__drawer-subnav {
+    list-style: none;
+    margin: 0;
+    padding: 0 0 0.75rem 1rem;
+    display: none;
+  }
+
+  .header__drawer-nav-item.subnav--open .header__drawer-subnav {
+    display: block;
+  }
+
+  .header__drawer-subnav-link {
+    display: block;
+    padding: 0.5rem 0;
+    color: var(--wv-muted, #999);
+    text-decoration: none;
+    font-size: 0.75rem;
+    font-family: 'Inter', sans-serif;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    transition: color 0.2s ease;
+  }
+
+  .header__drawer-subnav-link:hover {
+    color: var(--wv-bone, #F5F0EB);
+  }
+
+  .header__drawer-toggle {
+    background: none;
+    border: none;
+    color: var(--wv-muted, #999);
+    cursor: pointer;
+    padding: 1rem 0;
+    font-size: 0.65rem;
+    float: right;
+    font-family: 'Inter', sans-serif;
+  }
+
+  /* --- Responsive --- */
+  @media (max-width: 768px) {
+    .header__nav {
+      display: none;
+    }
+
+    .header__hamburger {
+      display: inline-flex;
+    }
+
+    .header__inner {
+      padding: 0 1rem;
+    }
+
+    .header__logo-text {
+      font-size: 1.1rem;
+      letter-spacing: 0.25em;
+    }
+  }
+</style>
+
+<header
+  class="wolvestry-header"
+  id="wolvestry-header"
+  data-sticky="{{ section.settings.sticky_header }}"
+  role="banner"
+>
+  <div class="header__inner">
+    <!-- Left: Wolf Logo + Brand Name -->
+    <div class="header__left">
+      <button
+        class="header__hamburger"
+        aria-label="Open menu"
+        aria-controls="mobile-drawer"
+        aria-expanded="false"
+        type="button"
+      >
+        {% render 'wolvestry-icons', name: 'menu' %}
+      </button>
+
+      <a href="/" class="header__logo-link" aria-label="{{ shop.name }} - Home">
+        {%- if settings.logo != blank -%}
+          {%- assign logo_width = settings.logo_width | default: 140 -%}
+          <img
+            src="{{ settings.logo | image_url: width: logo_width }}"
+            srcset="{{ settings.logo | image_url: width: logo_width }} 1x, {{ settings.logo | image_url: width: logo_width | times: 2 }} 2x"
+            alt="{{ settings.logo.alt | default: shop.name | escape }}"
+            class="header__logo-image"
+            width="{{ logo_width }}"
+            height="{{ logo_width | divided_by: settings.logo.aspect_ratio }}"
+            loading="eager"
+            fetchpriority="high"
+          >
+        {%- else -%}
+          <svg class="header__wolf-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="24" height="24" fill="currentColor" style="margin-right: 0.5rem; color: var(--wv-bone, #F5F0EB);">
+            <path d="M16 2L10 8l-4-2v8l4 6 2 8h8l2-8 4-6V6l-4 2-6-6zm-4 10l2-2 2 3-2 3-2-1v-3zm8 0v3l-2 1-2-3 2-3 2 2zm-4 6l-3-2 3-4 3 4-3 2z"/>
+          </svg>
+          <span class="header__logo-text">WOLVESTRY</span>
+        {%- endif -%}
+      </a>
+    </div>
+
+    <!-- Center: Navigation (Desktop) -->
+    <div class="header__center">
+      <nav aria-label="Main navigation">
+        <ul class="header__nav" role="menubar">
+          <li class="header__nav-item" role="none">
+            <a href="/" class="header__nav-link{% if template.name == 'index' %} header__nav-link--active{% endif %}" role="menuitem">Home</a>
+          </li>
+          <li class="header__nav-item header__nav-item--has-dropdown" role="none">
+            <a href="/collections/all" class="header__nav-link" role="menuitem" aria-haspopup="true" aria-expanded="false">Shop</a>
+            <ul class="header__dropdown" role="menu" aria-label="Shop submenu">
+              <li role="none">
+                <a href="/collections/new-arrivals" class="header__dropdown-link" role="menuitem">New Arrivals</a>
+              </li>
+              <li role="none">
+                <a href="/collections/bestsellers" class="header__dropdown-link" role="menuitem">Bestsellers</a>
+              </li>
+              <li role="none">
+                <a href="/collections/tops" class="header__dropdown-link" role="menuitem">Tops</a>
+              </li>
+              <li role="none">
+                <a href="/collections/bottoms" class="header__dropdown-link" role="menuitem">Bottoms</a>
+              </li>
+              <li role="none">
+                <a href="/collections/outerwear" class="header__dropdown-link" role="menuitem">Outerwear</a>
+              </li>
+              <li role="none">
+                <a href="/collections/accessories" class="header__dropdown-link" role="menuitem">Accessories</a>
+              </li>
+            </ul>
+          </li>
+          <li class="header__nav-item" role="none">
+            <a href="/pages/about" class="header__nav-link" role="menuitem">About</a>
+          </li>
+          <li class="header__nav-item" role="none">
+            <a href="/pages/contact" class="header__nav-link" role="menuitem">Contact</a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+
+    <!-- Right: Search + Cart Icons (no account) -->
+    <div class="header__right">
+      {%- if section.settings.show_search -%}
+        <a href="/search" class="header__icon-btn" aria-label="Search">
+          {% render 'wolvestry-icons', name: 'search' %}
+        </a>
+      {%- endif -%}
+
+      <a href="{{ routes.cart_url }}" class="header__icon-btn header__cart-btn" aria-label="Cart ({{ cart.item_count }} items)">
+        {% render 'wolvestry-icons', name: 'cart' %}
+        <span class="header__cart-count" data-cart-count data-count="{{ cart.item_count }}">
+          {%- if cart.item_count > 0 -%}{{ cart.item_count }}{%- endif -%}
+        </span>
+      </a>
+    </div>
+  </div>
+</header>
+
+<!-- Mobile Drawer -->
+<div class="header__mobile-drawer" id="mobile-drawer" aria-label="Mobile navigation" role="dialog" aria-modal="true">
+  <div class="header__drawer-overlay" data-drawer-overlay></div>
+  <div class="header__drawer-panel">
+    <div class="header__drawer-top">
+      <a href="/" class="header__logo-link" aria-label="{{ shop.name }}">
+        <span class="header__logo-text" style="font-size: 1rem;">WOLVESTRY</span>
+      </a>
+      <button class="header__drawer-close" aria-label="Close menu" type="button">
+        {% render 'wolvestry-icons', name: 'close' %}
+      </button>
+    </div>
+    <ul class="header__drawer-nav">
+      <li class="header__drawer-nav-item">
+        <a href="/" class="header__drawer-nav-link">Home</a>
+      </li>
+      <li class="header__drawer-nav-item header__drawer-nav-item--has-children">
+        <a href="/collections/all" class="header__drawer-nav-link">
+          Shop
+          <button class="header__drawer-toggle" aria-label="Expand Shop submenu" type="button">+</button>
+        </a>
+        <ul class="header__drawer-subnav">
+          <li><a href="/collections/new-arrivals" class="header__drawer-subnav-link">New Arrivals</a></li>
+          <li><a href="/collections/bestsellers" class="header__drawer-subnav-link">Bestsellers</a></li>
+          <li><a href="/collections/tops" class="header__drawer-subnav-link">Tops</a></li>
+          <li><a href="/collections/bottoms" class="header__drawer-subnav-link">Bottoms</a></li>
+          <li><a href="/collections/outerwear" class="header__drawer-subnav-link">Outerwear</a></li>
+          <li><a href="/collections/accessories" class="header__drawer-subnav-link">Accessories</a></li>
+        </ul>
+      </li>
+      <li class="header__drawer-nav-item">
+        <a href="/pages/about" class="header__drawer-nav-link">About</a>
+      </li>
+      <li class="header__drawer-nav-item">
+        <a href="/pages/contact" class="header__drawer-nav-link">Contact</a>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<script>
+  (function () {
+    const header = document.getElementById('wolvestry-header');
+    const drawer = document.getElementById('mobile-drawer');
+    const hamburger = document.querySelector('.header__hamburger');
+    const drawerClose = document.querySelector('.header__drawer-close');
+    const drawerOverlay = document.querySelector('[data-drawer-overlay]');
+    const SCROLL_THRESHOLD = 80;
+
+    /* --- Scroll handler: toggle .header--scrolled --- */
+    function handleScroll() {
+      if (!header) return;
+      if (window.scrollY > SCROLL_THRESHOLD) {
+        header.classList.add('header--scrolled');
+      } else {
+        header.classList.remove('header--scrolled');
+      }
+    }
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
+
+    /* --- Mobile drawer open/close --- */
+    function openDrawer() {
+      if (!drawer) return;
+      drawer.classList.add('drawer--open');
+      hamburger.setAttribute('aria-expanded', 'true');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeDrawer() {
+      if (!drawer) return;
+      drawer.classList.remove('drawer--open');
+      hamburger.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+    }
+
+    if (hamburger) hamburger.addEventListener('click', openDrawer);
+    if (drawerClose) drawerClose.addEventListener('click', closeDrawer);
+    if (drawerOverlay) drawerOverlay.addEventListener('click', closeDrawer);
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && drawer && drawer.classList.contains('drawer--open')) {
+        closeDrawer();
+      }
+    });
+
+    /* --- Mobile subnav toggle --- */
+    document.querySelectorAll('.header__drawer-toggle').forEach(function (btn) {
+      btn.addEventListener('click', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var parentItem = btn.closest('.header__drawer-nav-item');
+        if (parentItem) {
+          parentItem.classList.toggle('subnav--open');
+          btn.textContent = parentItem.classList.contains('subnav--open') ? '−' : '+';
+        }
+      });
+    });
+
+    /* --- Desktop dropdown: hover intent --- */
+    document.querySelectorAll('.header__nav-item--has-dropdown').forEach(function (item) {
+      var timeout;
+      item.addEventListener('mouseenter', function () {
+        clearTimeout(timeout);
+        item.classList.add('dropdown--open');
+        var link = item.querySelector('[aria-haspopup]');
+        if (link) link.setAttribute('aria-expanded', 'true');
+      });
+      item.addEventListener('mouseleave', function () {
+        timeout = setTimeout(function () {
+          item.classList.remove('dropdown--open');
+          var link = item.querySelector('[aria-haspopup]');
+          if (link) link.setAttribute('aria-expanded', 'false');
+        }, 150);
+      });
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Wolvestry Header",
+  "tag": "section",
+  "class": "wolvestry-header-section",
+  "settings": [
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Menu",
+      "default": "main-menu"
+    },
+    {
+      "type": "checkbox",
+      "id": "sticky_header",
+      "label": "Enable sticky header",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_search",
+      "label": "Show search icon",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_account",
+      "label": "Show account icon",
+      "default": false
+    }
+  ],
+  "presets": [
+    {
+      "name": "Wolvestry Header"
+    }
+  ]
+}
+{% endschema %}

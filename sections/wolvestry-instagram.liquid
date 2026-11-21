@@ -1,0 +1,180 @@
+<section
+  class="wolvestry-instagram"
+  style="
+    padding: var(--section-spacing) 0;
+    {% if section.settings.color_scheme == 'dark' %}
+      background: var(--wv-black); color: var(--wv-bone);
+    {% elsif section.settings.color_scheme == 'light' %}
+      background: var(--wv-bone); color: var(--wv-black);
+    {% endif %}
+  "
+>
+  <div class="page-width">
+    <div class="wolvestry-instagram__header" style="
+      text-align: center;
+      margin-bottom: 3rem;
+    ">
+      {% if section.settings.heading != blank %}
+        <h2 style="
+          font-family: var(--font-heading);
+          font-size: clamp(1.8rem, 4vw, 3.2rem);
+          letter-spacing: 0.15em;
+          text-transform: uppercase;
+          margin: 0 0 0.5rem;
+        ">
+          {{ section.settings.heading }}
+        </h2>
+      {% endif %}
+
+      {% if section.settings.handle != blank %}
+        <a
+          href="{{ section.settings.instagram_url }}"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="wolvestry-instagram__handle"
+          style="
+            color: var(--wv-bone);
+            text-decoration: none;
+            font-family: 'Barlow Condensed', sans-serif;
+            font-style: italic;
+            font-size: clamp(2.4rem, 5vw, 4.8rem);
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+          "
+        >
+          {{ section.settings.handle }}
+        </a>
+      {% endif %}
+    </div>
+
+    {% if section.blocks.size > 0 %}
+      <div class="wolvestry-instagram__grid" style="
+        display: grid;
+        grid-template-columns: repeat(6, 1fr);
+        gap: 8px;
+      ">
+        {% for block in section.blocks %}
+          {% if block.type == 'image' %}
+            <div class="wolvestry-instagram__item" {{ block.shopify_attributes }} style="
+              aspect-ratio: 1 / 1;
+              overflow: hidden;
+            ">
+              {% if block.settings.link != blank %}
+                <a href="{{ block.settings.link }}" target="_blank" rel="noopener noreferrer" style="display: block; width: 100%; height: 100%;">
+              {% endif %}
+
+              {% if block.settings.image != blank %}
+                <img
+                  src="{{ block.settings.image | image_url: width: 600 }}"
+                  alt="{{ block.settings.image.alt | escape }}"
+                  loading="lazy"
+                  width="600"
+                  height="600"
+                  class="wolvestry-instagram__img"
+                  style="
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                    display: block;
+                    transition: opacity 0.3s ease;
+                  "
+                >
+              {% else %}
+                {{ 'lifestyle-1' | placeholder_svg_tag: 'wolvestry-instagram__placeholder' }}
+              {% endif %}
+
+              {% if block.settings.link != blank %}
+                </a>
+              {% endif %}
+            </div>
+          {% elsif block.type == '@app' %}
+            <div {{ block.shopify_attributes }}>
+              {% render block %}
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+
+  <style>
+    .wolvestry-instagram__handle:hover {
+      text-decoration: underline;
+    }
+
+    .wolvestry-instagram__item:hover .wolvestry-instagram__img {
+      opacity: 0.6;
+    }
+
+    @media screen and (max-width: 749px) {
+      .wolvestry-instagram__grid {
+        grid-template-columns: repeat(3, 1fr) !important;
+      }
+    }
+  </style>
+</section>
+
+{% schema %}
+{
+  "name": "Wolvestry Instagram",
+  "tag": "section",
+  "class": "section-wolvestry-instagram",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "FOLLOW"
+    },
+    {
+      "type": "text",
+      "id": "handle",
+      "label": "Instagram handle",
+      "default": "@WOLVESTRY"
+    },
+    {
+      "type": "url",
+      "id": "instagram_url",
+      "label": "Instagram URL",
+      "default": "https://instagram.com/wolvestry"
+    },
+    {
+      "type": "select",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "options": [
+        { "value": "dark", "label": "Dark" },
+        { "value": "light", "label": "Light" }
+      ],
+      "default": "dark"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "image",
+      "name": "Image",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link (optional)"
+        }
+      ]
+    },
+    {
+      "type": "@app"
+    }
+  ],
+  "max_blocks": 6,
+  "presets": [
+    {
+      "name": "Wolvestry Instagram"
+    }
+  ]
+}
+{% endschema %}

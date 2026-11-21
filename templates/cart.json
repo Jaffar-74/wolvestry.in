@@ -1,0 +1,9 @@
+{
+  "sections": {
+    "main": {
+      "type": "wolvestry-cart",
+      "settings": {}
+    }
+  },
+  "order": ["main"]
+}

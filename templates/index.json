@@ -1,0 +1,33 @@
+{
+  "sections": {
+    "hero": {
+      "type": "wolvestry-hero",
+      "settings": {}
+    },
+    "featured": {
+      "type": "wolvestry-featured",
+      "settings": {}
+    },
+    "bestsellers": {
+      "type": "wolvestry-bestsellers",
+      "settings": {}
+    },
+    "story": {
+      "type": "wolvestry-story",
+      "settings": {}
+    },
+    "reviews": {
+      "type": "wolvestry-reviews",
+      "settings": {}
+    },
+    "instagram": {
+      "type": "wolvestry-instagram",
+      "settings": {}
+    },
+    "newsletter": {
+      "type": "wolvestry-newsletter",
+      "settings": {}
+    }
+  },
+  "order": ["hero", "featured", "bestsellers", "story", "reviews", "instagram", "newsletter"]
+}

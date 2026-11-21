@@ -1,0 +1,15 @@
+{
+  "type": "header",
+  "name": "Header group",
+  "sections": {
+    "announcement-bar": {
+      "type": "wolvestry-announcement-bar",
+      "settings": {}
+    },
+    "header": {
+      "type": "wolvestry-header",
+      "settings": {}
+    }
+  },
+  "order": ["announcement-bar", "header"]
+}

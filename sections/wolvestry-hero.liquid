@@ -1,0 +1,381 @@
+{%- liquid
+  assign overlay = section.settings.overlay_opacity | divided_by: 100.0
+  assign pos = section.settings.content_position | split: '-'
+  assign h_align = pos[0]
+  assign v_align = pos[1]
+
+  case h_align
+    when 'left'
+      assign justify = 'flex-start'
+      assign text_align = 'left'
+    when 'right'
+      assign justify = 'flex-end'
+      assign text_align = 'right'
+    else
+      assign justify = 'center'
+      assign text_align = 'center'
+  endcase
+
+  case v_align
+    when 'top'
+      assign items = 'flex-start'
+    when 'bottom'
+      assign items = 'flex-end'
+    else
+      assign items = 'center'
+  endcase
+-%}
+
+<style>
+  .wv-hero-{{ section.id }} {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    min-height: 560px;
+    overflow: hidden;
+    display: flex;
+    align-items: {{ items }};
+    justify-content: {{ justify }};
+    --overlay: {{ overlay }};
+    color-scheme: {{ section.settings.color_scheme }};
+  }
+
+  .wv-hero-{{ section.id }} .wv-hero__bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+
+  .wv-hero-{{ section.id }} .wv-hero__bg img,
+  .wv-hero-{{ section.id }} .wv-hero__bg iframe,
+  .wv-hero-{{ section.id }} .wv-hero__bg video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .wv-hero-{{ section.id }} .wv-hero__bg--mobile {
+    display: none;
+  }
+
+  .wv-hero-{{ section.id }} .wv-hero__bg--placeholder {
+    width: 100%;
+    height: 100%;
+    background: #111;
+  }
+
+  .wv-hero-{{ section.id }} .wv-hero__overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, var(--overlay)) 0%,
+      rgba(0, 0, 0, 0.1) 40%,
+      rgba(0, 0, 0, var(--overlay)) 100%
+    );
+    pointer-events: none;
+  }
+
+  .wv-hero-{{ section.id }} .wv-hero__content {
+    position: relative;
+    z-index: 2;
+    text-align: {{ text_align }};
+    padding: 3rem 2rem;
+    max-width: 1200px;
+    width: 100%;
+  }
+
+  .wv-hero-{{ section.id }} .wv-hero__eyebrow,
+  .wv-hero-{{ section.id }} .wv-hero__heading,
+  .wv-hero-{{ section.id }} .wv-hero__subtext,
+  .wv-hero-{{ section.id }} .wv-hero__action {
+    animation: wvFadeUp--{{ section.id }} 0.8s ease both;
+  }
+
+  .wv-hero-{{ section.id }} .wv-hero__eyebrow {
+    animation-delay: 0.2s;
+  }
+
+  .wv-hero-{{ section.id }} .wv-hero__heading {
+    animation-delay: 0.4s;
+  }
+
+  .wv-hero-{{ section.id }} .wv-hero__subtext {
+    animation-delay: 0.6s;
+  }
+
+  .wv-hero-{{ section.id }} .wv-hero__action {
+    animation-delay: 0.8s;
+  }
+
+  @keyframes wvFadeUp--{{ section.id }} {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .wv-hero-{{ section.id }} .wv-hero__eyebrow {
+    text-transform: uppercase;
+    letter-spacing: 0.4em;
+    font-size: 0.75rem;
+    color: var(--wv-muted, #999);
+    margin-bottom: 1rem;
+  }
+
+  .wv-hero-{{ section.id }} .wv-hero__heading {
+    font-family: var(--font-heading, sans-serif);
+    font-size: clamp(5.6rem, 13vw, 20rem);
+    line-height: 0.85;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    margin: 0 0 1.5rem;
+    color: #fff;
+  }
+
+  .wv-hero-{{ section.id }} .wv-hero__subtext {
+    font-size: 1rem;
+    color: var(--wv-bone, #e8e0d5);
+    opacity: 0.8;
+    max-width: 500px;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+    {%- if text_align == 'center' %}
+    margin-left: auto;
+    margin-right: auto;
+    {%- elsif text_align == 'right' %}
+    margin-left: auto;
+    {%- endif %}
+  }
+
+  .wv-hero-{{ section.id }} .wv-btn {
+    display: inline-block;
+    padding: 0.9rem 2.4rem;
+    border: 1px solid #fff;
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    font-size: 0.75rem;
+    text-decoration: none;
+    transition: background 0.3s ease, color 0.3s ease;
+    background: transparent;
+  }
+
+  .wv-hero-{{ section.id }} .wv-btn:hover {
+    background: #fff;
+    color: #000;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .wv-hero-{{ section.id }} .wv-hero__eyebrow,
+    .wv-hero-{{ section.id }} .wv-hero__heading,
+    .wv-hero-{{ section.id }} .wv-hero__subtext,
+    .wv-hero-{{ section.id }} .wv-hero__action {
+      animation: none;
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  @media screen and (max-width: 767px) {
+    .wv-hero-{{ section.id }} .wv-hero__heading {
+      font-size: clamp(2.8rem, 12vw, 5.6rem);
+    }
+
+    .wv-hero-{{ section.id }} .wv-hero__bg--desktop {
+      display: none;
+    }
+
+    .wv-hero-{{ section.id }} .wv-hero__bg--mobile {
+      display: block;
+    }
+
+    .wv-hero-{{ section.id }} .wv-hero__content {
+      padding: 2rem 1.25rem;
+    }
+  }
+</style>
+
+<div class="wv-hero-{{ section.id }}">
+  <div class="wv-hero__bg">
+    {%- if section.settings.video_url != blank -%}
+      {{ section.settings.video_url | external_video_tag: autoplay: true, muted: true, loop: true, playsinline: true }}
+    {%- elsif section.settings.desktop_image != blank -%}
+      <img
+        class="wv-hero__bg--desktop"
+        src="{{ section.settings.desktop_image | image_url: width: 1920 }}"
+        srcset="
+          {{ section.settings.desktop_image | image_url: width: 960 }} 960w,
+          {{ section.settings.desktop_image | image_url: width: 1440 }} 1440w,
+          {{ section.settings.desktop_image | image_url: width: 1920 }} 1920w
+        "
+        sizes="100vw"
+        alt="{{ section.settings.desktop_image.alt | escape }}"
+        loading="eager"
+        fetchpriority="high"
+        width="{{ section.settings.desktop_image.width }}"
+        height="{{ section.settings.desktop_image.height }}"
+      >
+      {%- if section.settings.mobile_image != blank -%}
+        <img
+          class="wv-hero__bg--mobile"
+          src="{{ section.settings.mobile_image | image_url: width: 768 }}"
+          srcset="
+            {{ section.settings.mobile_image | image_url: width: 480 }} 480w,
+            {{ section.settings.mobile_image | image_url: width: 768 }} 768w
+          "
+          sizes="100vw"
+          alt="{{ section.settings.mobile_image.alt | escape }}"
+          loading="eager"
+          fetchpriority="high"
+          width="{{ section.settings.mobile_image.width }}"
+          height="{{ section.settings.mobile_image.height }}"
+        >
+      {%- else -%}
+        <img
+          class="wv-hero__bg--mobile"
+          src="{{ section.settings.desktop_image | image_url: width: 768 }}"
+          sizes="100vw"
+          alt="{{ section.settings.desktop_image.alt | escape }}"
+          loading="eager"
+          fetchpriority="high"
+          width="{{ section.settings.desktop_image.width }}"
+          height="{{ section.settings.desktop_image.height }}"
+        >
+      {%- endif -%}
+    {%- else -%}
+      <div class="wv-hero__bg--placeholder"></div>
+    {%- endif -%}
+  </div>
+
+  <div class="wv-hero__overlay"></div>
+
+  <div class="wv-hero__content">
+    {%- if section.settings.eyebrow != blank -%}
+      <p class="wv-hero__eyebrow">{{ section.settings.eyebrow | escape }}</p>
+    {%- endif -%}
+
+    {%- if section.settings.heading != blank -%}
+      <h1 class="wv-hero__heading">{{ section.settings.heading | escape }}</h1>
+    {%- endif -%}
+
+    {%- if section.settings.subtext != blank -%}
+      <p class="wv-hero__subtext">{{ section.settings.subtext | escape }}</p>
+    {%- endif -%}
+
+    {%- if section.settings.button_label != blank -%}
+      <div class="wv-hero__action">
+        <a
+          class="wv-btn"
+          href="{{ section.settings.button_link | default: '#' }}"
+        >
+          {{ section.settings.button_label | escape }}
+        </a>
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Wolvestry Hero",
+  "tag": "section",
+  "class": "wv-hero-section",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "desktop_image",
+      "label": "Desktop image"
+    },
+    {
+      "type": "image_picker",
+      "id": "mobile_image",
+      "label": "Mobile image"
+    },
+    {
+      "type": "video_url",
+      "id": "video_url",
+      "label": "Video URL (overrides image)",
+      "accept": ["youtube", "vimeo"]
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "label": "Overlay opacity",
+      "min": 0,
+      "max": 90,
+      "step": 5,
+      "unit": "%",
+      "default": 40
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow text",
+      "default": "WOLVESTRY"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "WEAR THE WILD."
+    },
+    {
+      "type": "textarea",
+      "id": "subtext",
+      "label": "Subtext",
+      "default": "Premium fashion. Unapologetically bold."
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "SHOP NOW"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    },
+    {
+      "type": "select",
+      "id": "content_position",
+      "label": "Content position",
+      "options": [
+        { "value": "left-top", "label": "Left top" },
+        { "value": "center-top", "label": "Center top" },
+        { "value": "right-top", "label": "Right top" },
+        { "value": "left-middle", "label": "Left middle" },
+        { "value": "center-middle", "label": "Center middle" },
+        { "value": "right-middle", "label": "Right middle" },
+        { "value": "left-bottom", "label": "Left bottom" },
+        { "value": "center-bottom", "label": "Center bottom" },
+        { "value": "right-bottom", "label": "Right bottom" }
+      ],
+      "default": "center-middle"
+    },
+    {
+      "type": "select",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "options": [
+        { "value": "scheme-1", "label": "Scheme 1" },
+        { "value": "scheme-2", "label": "Scheme 2" },
+        { "value": "scheme-3", "label": "Scheme 3" }
+      ],
+      "default": "scheme-1"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Wolvestry Hero"
+    }
+  ]
+}
+{% endschema %}
