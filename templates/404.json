@@ -28,42 +28,84 @@
             "desktop_width_percent": 100
           },
           "blocks": {}
+        },
+        "ai_gen_block_38034da_3py9gf": {
+          "type": "ai_gen_block_38034da",
+          "name": "Store footer",
+          "disabled": true,
+          "settings": {
+            "logo_width": 140,
+            "description": "A short introduction to your store.",
+            "column_1_title": "Explore",
+            "column_1_link_1": "Shop all",
+            "column_1_url_1": "",
+            "column_1_link_2": "About us",
+            "column_1_url_2": "",
+            "column_1_link_3": "Contact",
+            "column_1_url_3": "",
+            "column_1_link_4": "FAQ",
+            "column_1_url_4": "",
+            "column_2_title": "Customer care",
+            "column_2_link_1": "Shipping information",
+            "column_2_url_1": "",
+            "column_2_link_2": "Returns and exchanges",
+            "column_2_url_2": "",
+            "column_2_link_3": "Size guide",
+            "column_2_url_3": "",
+            "column_2_link_4": "Track your order",
+            "column_2_url_4": "",
+            "column_3_title": "Policies",
+            "column_3_link_1": "Privacy policy",
+            "column_3_url_1": "",
+            "column_3_link_2": "Terms of service",
+            "column_3_url_2": "",
+            "column_3_link_3": "Refund policy",
+            "column_3_url_3": "",
+            "column_3_link_4": "Contact information",
+            "column_3_url_4": "",
+            "copyright_text": "©",
+            "desktop_width_percent": 100,
+            "background_color": "#171717",
+            "text_color": "#F5F5F5",
+            "heading_color": "#FFFFFF"
+          },
+          "blocks": {}
         }
       },
       "block_order": [
-        "ai_gen_block_e68d685_Tgnm6D"
+        "ai_gen_block_e68d685_Tgnm6D",
+        "ai_gen_block_38034da_3py9gf"
       ],
       "settings": {}
     },
-    "wolvestry_hero_BPq4Pm": {
+    "wolvestry_hero_NX74K6": {
       "type": "wolvestry-hero",
       "name": "Wolvestry Hero",
       "settings": {
         "desktop_image": "shopify://shop_images/dark-moody-studio-portrait.png",
-        "overlay_opacity": 45,
+        "overlay_opacity": 40,
         "eyebrow": "WOLVESTRY",
         "heading": "WEAR THE WILD.",
-        "subtext": "Premium fashion. Unapologetically bold,",
+        "subtext": "Premium fashion. Unapologetically bold.",
         "button_label": "SHOP NOW",
         "button_link": "",
         "content_position": "center-middle",
         "color_scheme": "scheme-1"
       }
     },
-    "wolvestry_featured_Ca7Hqr": {
+    "wolvestry_featured_EaqRX6": {
       "type": "wolvestry-featured",
       "blocks": {
-        "tile_ytB3r9": {
+        "tile_G8wwqG": {
           "type": "tile",
           "settings": {
             "product": "",
             "collection": "",
             "category_label": "OUTERWEAR",
-            "custom_title": "WOLF SERIES JACKET",
-            "image": "shopify://shop_images/dark-moody-studio-portrait.png"
+            "custom_title": "WOLF SERIES JACKET"
           }
         },
-        "tile_8ieJmy": {
+        "tile_UCMDHx": {
           "type": "tile",
           "settings": {
             "product": "",
@@ -72,7 +114,7 @@
             "custom_title": "PACK HOODIE"
           }
         },
-        "tile_TK8wNH": {
+        "tile_PCULcH": {
           "type": "tile",
           "settings": {
             "product": "",
@@ -83,9 +125,9 @@
         }
       },
       "block_order": [
-        "tile_ytB3r9",
-        "tile_8ieJmy",
-        "tile_TK8wNH"
+        "tile_G8wwqG",
+        "tile_UCMDHx",
+        "tile_PCULcH"
       ],
       "name": "Wolvestry Featured",
       "settings": {
@@ -94,11 +136,116 @@
         "view_all_link": "",
         "color_scheme": "scheme-1"
       }
+    },
+    "blocks_Y4hQ8F": {
+      "type": "_blocks",
+      "name": "Store footer",
+      "settings": {}
+    },
+    "wolvestry_product_qNhyrE": {
+      "type": "wolvestry-product",
+      "blocks": {
+        "tab_qK4aCC": {
+          "type": "tab",
+          "settings": {
+            "title": "SIZE GUIDE",
+            "content": "<p>XS: Chest 96cm, Length 68cm</p><p>S: Chest 100cm, Length 70cm</p><p>M: Chest 104cm, Length 72cm</p><p>L: Chest 110cm, Length 74cm</p><p>XL: Chest 116cm, Length <a href=\"/collections/frontpage\" title=\"Home page\">76cm</a></p><p>XXL: Chest 122cm, Length 78cm</p>"
+          }
+        },
+        "tab_Jz9Fym": {
+          "type": "tab",
+          "settings": {
+            "title": "FABRIC & CARE",
+            "content": "<p>100% premium cotton, 240 GSM. Machine wash cold, inside out. Do not bleach. Tumble dry low. Iron on low heat if needed.</p>"
+          }
+        },
+        "tab_W4iJY4": {
+          "type": "tab",
+          "settings": {
+            "title": "SHIPPING & RETURNS",
+            "content": "<p>Free shipping on orders above ₹999. Dispatched within 1-2 business days. Delivery in 3-7 business days across India. Returns accepted within 7 days of delivery — items must be unworn, unwashed, and in original packaging.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "tab_qK4aCC",
+        "tab_Jz9Fym",
+        "tab_W4iJY4"
+      ],
+      "name": "Wolvestry Product",
+      "settings": {}
+    },
+    "wolvestry_story_adJFNj": {
+      "type": "wolvestry-story",
+      "name": "Wolvestry Story",
+      "settings": {
+        "eyebrow": "THE PACK",
+        "heading": "BUILT FOR THE BOLD.",
+        "text": "Built for those who move with purpose. Wolvestry is more than clothing — it's a code. Wear it like you mean it.",
+        "button_label": "OUR STORY",
+        "button_link": "",
+        "image_position": "left",
+        "color_scheme": "scheme-1"
+      }
+    },
+    "blocks_NyFNAe": {
+      "type": "_blocks",
+      "blocks": {
+        "ai_gen_block_38034da_wjefbV": {
+          "type": "ai_gen_block_38034da",
+          "settings": {
+            "logo_width": 140,
+            "description": "A short introduction to your store.",
+            "column_1_title": "Explore",
+            "column_1_link_1": "Shop all",
+            "column_1_url_1": "",
+            "column_1_link_2": "About us",
+            "column_1_url_2": "",
+            "column_1_link_3": "Contact",
+            "column_1_url_3": "",
+            "column_1_link_4": "FAQ",
+            "column_1_url_4": "",
+            "column_2_title": "Customer care",
+            "column_2_link_1": "Shipping information",
+            "column_2_url_1": "",
+            "column_2_link_2": "Returns and exchanges",
+            "column_2_url_2": "",
+            "column_2_link_3": "Size guide",
+            "column_2_url_3": "",
+            "column_2_link_4": "Track your order",
+            "column_2_url_4": "",
+            "column_3_title": "Policies",
+            "column_3_link_1": "Privacy policy",
+            "column_3_url_1": "",
+            "column_3_link_2": "Terms of service",
+            "column_3_url_2": "",
+            "column_3_link_3": "Refund policy",
+            "column_3_url_3": "",
+            "column_3_link_4": "Contact information",
+            "column_3_url_4": "",
+            "copyright_text": "©",
+            "desktop_width_percent": 100,
+            "background_color": "#171717",
+            "text_color": "#F5F5F5",
+            "heading_color": "#FFFFFF"
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_38034da_wjefbV"
+      ],
+      "name": "Store footer",
+      "settings": {}
     }
   },
   "order": [
     "1795264365e9c69850",
-    "wolvestry_hero_BPq4Pm",
-    "wolvestry_featured_Ca7Hqr"
+    "wolvestry_hero_NX74K6",
+    "wolvestry_featured_EaqRX6",
+    "blocks_Y4hQ8F",
+    "wolvestry_product_qNhyrE",
+    "wolvestry_story_adJFNj",
+    "blocks_NyFNAe"
   ]
 }

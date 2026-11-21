@@ -10,18 +10,6 @@
 {
   "type": "footer",
   "name": "Footer group",
-  "sections": {
-    "footer": {
-      "type": "wolvestry-footer",
-      "settings": {
-        "heading": "WOLVESTRY",
-        "description": "Premium unisex fashion from India.",
-        "show_newsletter": true,
-        "show_payment_icons": true
-      }
-    }
-  },
-  "order": [
-    "footer"
-  ]
+  "sections": {},
+  "order": []
 }
