@@ -13,29 +13,19 @@
       "type": "wolvestry-hero",
       "name": "Wolvestry Hero",
       "settings": {
-        "overlay_opacity": 40,
+        "desktop_image": "shopify://shop_images/dark-moody-studio-portrait.png",
+        "overlay_opacity": 45,
         "eyebrow": "WOLVESTRY",
         "heading": "WEAR THE WILD.",
-        "subtext": "Premium fashion. Unapologetically bold.",
+        "subtext": "Premium fashion. Unapologetically bold,",
         "button_label": "SHOP NOW",
         "button_link": "",
         "content_position": "center-middle",
         "color_scheme": "scheme-1"
       }
-    },
-    "wolvestry_header_iCwPHr": {
-      "type": "wolvestry-header",
-      "name": "Wolvestry Header",
-      "settings": {
-        "menu": "main-menu",
-        "sticky_header": true,
-        "show_search": true,
-        "show_account": true
-      }
     }
   },
   "order": [
-    "wolvestry_header_iCwPHr",
     "wolvestry_hero_BPq4Pm"
   ]
 }
