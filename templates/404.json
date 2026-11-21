@@ -1,9 +1,41 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
-    "main": {
-      "type": "wolvestry-404",
-      "settings": {}
+    "wolvestry_hero_BPq4Pm": {
+      "type": "wolvestry-hero",
+      "name": "Wolvestry Hero",
+      "settings": {
+        "overlay_opacity": 40,
+        "eyebrow": "WOLVESTRY",
+        "heading": "WEAR THE WILD.",
+        "subtext": "Premium fashion. Unapologetically bold.",
+        "button_label": "SHOP NOW",
+        "button_link": "",
+        "content_position": "center-middle",
+        "color_scheme": "scheme-1"
+      }
+    },
+    "wolvestry_header_iCwPHr": {
+      "type": "wolvestry-header",
+      "name": "Wolvestry Header",
+      "settings": {
+        "menu": "main-menu",
+        "sticky_header": true,
+        "show_search": true,
+        "show_account": true
+      }
     }
   },
-  "order": ["main"]
+  "order": [
+    "wolvestry_header_iCwPHr",
+    "wolvestry_hero_BPq4Pm"
+  ]
 }
