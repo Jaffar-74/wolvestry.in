@@ -66,8 +66,8 @@
             "copyright_text": "©",
             "desktop_width_percent": 100,
             "background_color": "#171717",
-            "text_color": "#F5F5F5",
-            "heading_color": "#FFFFFF"
+            "text_color": "#f5f5f5",
+            "heading_color": "#ffffff"
           },
           "blocks": {}
         }
@@ -82,7 +82,8 @@
       "type": "wolvestry-hero",
       "name": "Wolvestry Hero",
       "settings": {
-        "desktop_image": "shopify://shop_images/dark-moody-studio-portrait.png",
+        "desktop_image": "shopify://shop_images/1266355187.webp",
+        "video_url": "",
         "overlay_opacity": 40,
         "eyebrow": "WOLVESTRY",
         "heading": "WEAR THE WILD.",
@@ -101,8 +102,9 @@
           "settings": {
             "product": "",
             "collection": "",
-            "category_label": "OUTERWEAR",
-            "custom_title": "WOLF SERIES JACKET"
+            "category_label": "HOODIES",
+            "custom_title": "PACK HOODIE",
+            "image": "shopify://shop_images/man-in-white-and-light-tan-outfit.jpg"
           }
         },
         "tile_UCMDHx": {
@@ -226,8 +228,8 @@
             "copyright_text": "©",
             "desktop_width_percent": 100,
             "background_color": "#171717",
-            "text_color": "#F5F5F5",
-            "heading_color": "#FFFFFF"
+            "text_color": "#f5f5f5",
+            "heading_color": "#ffffff"
           },
           "blocks": {}
         }
