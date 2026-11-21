@@ -113,7 +113,8 @@
             "product": "",
             "collection": "",
             "category_label": "HOODIES",
-            "custom_title": "PACK HOODIE"
+            "custom_title": "PACK HOODIE",
+            "image": "shopify://shop_images/a57a3e6778cd4f7fb24b92caa34cb293.png"
           }
         },
         "tile_PCULcH": {
@@ -122,7 +123,8 @@
             "product": "",
             "collection": "",
             "category_label": "T-SHIRTS",
-            "custom_title": "SHADOW TEE"
+            "custom_title": "SHADOW TEE",
+            "image": "shopify://shop_images/generated_image_18.png"
           }
         }
       },
