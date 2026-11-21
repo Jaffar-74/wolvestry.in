@@ -17,9 +17,9 @@
           "settings": {
             "logo_image": "shopify://shop_images/Logo.png",
             "logo_alt": "Wolvestry",
-            "desktop_logo_width": 180,
+            "desktop_logo_width": 190,
             "mobile_logo_width": 130,
-            "menu": "",
+            "menu": "main-menu",
             "nav_label": "Shop",
             "nav_link": "",
             "show_search": true,
