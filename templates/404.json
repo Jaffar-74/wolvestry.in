@@ -89,7 +89,7 @@
         "heading": "WEAR THE WILD.",
         "subtext": "Premium fashion. Unapologetically bold.",
         "button_label": "SHOP NOW",
-        "button_link": "",
+        "button_link": "shopify://collections",
         "content_position": "center-middle",
         "color_scheme": "scheme-1"
       }

@@ -1,11 +1,48 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
-    "main": {
-      "type": "wolvestry-collection-grid",
-      "settings": {
-        "heading": "ALL COLLECTIONS"
-      }
+    "blocks_XKbxC4": {
+      "type": "_blocks",
+      "blocks": {
+        "ai_gen_block_078f4ea_nagh7B": {
+          "type": "ai_gen_block_078f4ea",
+          "settings": {
+            "heading": "Best sellers",
+            "collection": "",
+            "link_label": "View all",
+            "product_count": 4,
+            "desktop_width_percent": 100,
+            "columns_desktop": "4",
+            "columns_mobile": "2",
+            "add_label": "Add to cart",
+            "choose_label": "Choose options",
+            "sold_out_label": "Sold out",
+            "background_color": "#111111",
+            "card_color": "#1C1C1C",
+            "text_color": "#F5F2EB",
+            "button_color": "#F5F2EB",
+            "button_text_color": "#111111",
+            "button_radius": 0
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_078f4ea_nagh7B"
+      ],
+      "name": "Collection products",
+      "settings": {}
     }
   },
-  "order": ["main"]
+  "order": [
+    "blocks_XKbxC4"
+  ]
 }
