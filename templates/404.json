@@ -101,7 +101,7 @@
           "type": "tile",
           "settings": {
             "product": "",
-            "collection": "",
+            "collection": "hoodie",
             "category_label": "HOODIES",
             "custom_title": "PACK HOODIE",
             "image": "shopify://shop_images/man-in-white-and-light-tan-outfit.jpg"
@@ -114,17 +114,17 @@
             "collection": "",
             "category_label": "HOODIES",
             "custom_title": "PACK HOODIE",
-            "image": "shopify://shop_images/a57a3e6778cd4f7fb24b92caa34cb293.png"
+            "image": "shopify://shop_images/d19e07c345e74fafabd55778a0571897.png"
           }
         },
         "tile_PCULcH": {
           "type": "tile",
           "settings": {
             "product": "",
-            "collection": "",
+            "collection": "frontpage",
             "category_label": "T-SHIRTS",
             "custom_title": "SHADOW TEE",
-            "image": "shopify://shop_images/generated_image_18.png"
+            "image": "shopify://shop_images/man-on-bike.jpg"
           }
         }
       },
@@ -144,6 +144,38 @@
     "blocks_Y4hQ8F": {
       "type": "_blocks",
       "name": "Store footer",
+      "settings": {}
+    },
+    "blocks_wQhNep": {
+      "type": "_blocks",
+      "blocks": {
+        "ai_gen_block_078f4ea_fD7tNH": {
+          "type": "ai_gen_block_078f4ea",
+          "settings": {
+            "heading": "Best sellers",
+            "collection": "hoodie",
+            "link_label": "View all",
+            "product_count": 4,
+            "desktop_width_percent": 100,
+            "columns_desktop": "4",
+            "columns_mobile": "2",
+            "add_label": "Add to cart",
+            "choose_label": "Choose options",
+            "sold_out_label": "Sold out",
+            "background_color": "#111111",
+            "card_color": "#1C1C1C",
+            "text_color": "#F5F2EB",
+            "button_color": "#F5F2EB",
+            "button_text_color": "#111111",
+            "button_radius": 8
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_078f4ea_fD7tNH"
+      ],
+      "name": "Collection products",
       "settings": {}
     },
     "wolvestry_product_qNhyrE": {
@@ -241,6 +273,10 @@
       ],
       "name": "Store footer",
       "settings": {}
+    },
+    "1795335237c7d92cf1": {
+      "type": "_blocks",
+      "settings": {}
     }
   },
   "order": [
@@ -248,8 +284,10 @@
     "wolvestry_hero_NX74K6",
     "wolvestry_featured_EaqRX6",
     "blocks_Y4hQ8F",
+    "blocks_wQhNep",
     "wolvestry_product_qNhyrE",
     "wolvestry_story_adJFNj",
-    "blocks_NyFNAe"
+    "blocks_NyFNAe",
+    "1795335237c7d92cf1"
   ]
 }
